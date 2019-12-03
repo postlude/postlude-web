@@ -4,7 +4,7 @@
 
         <el-row>
             <el-button>Default</el-button>
-            <el-button type="primary" @click="alertTest">
+            <el-button type="primary" @click="test">
                 Primary
             </el-button>
             <el-button type="success">
@@ -24,22 +24,15 @@
 </template>
 
 <script>
-// import { alert } from '../util/test';
-
 export default {
     name: 'Sample',
     component: {
 
     },
     methods: {
-        alertTest() {
-            this.$root.alert({
-                mssage: 'message',
-                // type: 'info',
-                title: 'aaaaaaaaaaaaaaaa',
-                // cnfirmBtnText: '확인'
-                callback: this.func,
-                center: true
+        test() {
+            this.$root.cnfirm({
+                cnfirmMssage: 'aaaa?'
             });
         },
         func() {
