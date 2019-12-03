@@ -4,8 +4,10 @@ module.exports = {
         node: true,
     },
     extends: [
-        'plugin:vue/essential', // 
-        // 'plugin:vue/recommended', // 
+        // 'plugin:vue/base', // Enabling Correct ESLint Parsing
+        // 'plugin:vue/essential', // Error Prevention
+        // 'plugin:vue/strongly-recommended', // Improving Readability
+        'plugin:vue/recommended', // Minimizing Arbitrary Choices and Cognitive Overhead
         '@vue/airbnb',
     ],
     rules: {
@@ -19,16 +21,16 @@ module.exports = {
         'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }], // devDependencies에만 존재하는 패키지도 임포트 가능토록
         // 'no-param-reassign': ['error', { 'props': false }], // 매개 변수 객체 내용 변경 허용
         'no-plusplus': 0, // 증감 연산자 허용
-        'import/no-dynamic-require': 0, // 다이나믹 require 허용
+        // 'import/no-dynamic-require': 0, // 다이나믹 require 허용
         'vue/max-attributes-per-line': ['error', {
-            'singleline': 3, // [회의] 1줄에 attribute 3개까지 허용
+            'singleline': 3, // 1줄에 attribute 3개까지 허용
             'multiline': {
-                'max': 3, // [회의] single line과 동일하게 맞춤
-                'allowFirstLine': false // [회의] multiline의 첫줄에 attribute 허용 여부
+                'max': 3, // single line과 동일하게 맞춤
+                'allowFirstLine': false // multiline의 첫줄에 attribute 허용 여부
             }
         }],
         'comma-dangle': ['error', 'never'], // [eslint] 마지막 comma 없는 것으로
-        'no-alert': 0, // [회의] alert 허용
+        'no-alert': 0, // alert 허용
         // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off', // 추가 설정 확인 요망
         // 'no-debugger': 'error', // [default] debugger 사용 불가
         'max-len': ['error', {
@@ -41,8 +43,8 @@ module.exports = {
             'ignoreRegExpLiterals': true // [eslint] 정규식 max-len 적용 안함
         }],
         'no-undef-init': 'error', // [default] undefined 로 초기화 불가
-        'no-else-return': 'off', // [회의] else return 허용
-        'no-underscore-dangle': 0, // 변수명 내 언더바 사용 허용 (기존에 계속해서 사용되었음)
+        'no-else-return': 'off', // else return 허용
+        // 'no-underscore-dangle': 0, // 변수명 내 언더바 사용 허용 (기존에 계속해서 사용되었음)
         // 'camelcase': 0, // 변수명 내 언더바 사용 허용 (기존에 계속해서 사용되었음)
         // 'class-methods-use-this': 0, // 클래스 메소드가 클래스 내부에서 this로 호출 되지 않아도 되도록 (기존에 계속해서 사용되었음)
         // 'arrow-body-style': 0, // Arrow 함수 리턴 시 스타일 자유롭도록 (8월 30일자 회의 통해 정함)
