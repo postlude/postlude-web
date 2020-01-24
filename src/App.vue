@@ -14,7 +14,7 @@
         <!-- Content -->
         <v-content>
             <v-container class="fill-height" fluid>
-                <v-row align="center" justify="center">
+                <!-- <v-row align="center" justify="center">
                     <v-col class="shrink">
                         <v-tooltip right>
                             <template v-slot:activator="{ on }">
@@ -56,40 +56,30 @@
                             alert
                         </v-btn>
                     </v-col>
-                </v-row>
-                <!-- <router-view /> -->
+                </v-row> -->
+                <router-view />
             </v-container>
         </v-content>
 
-        <modal
-            :is-open="isOpen" :ty="ty" title="정말로 삭제하시겠습니까?"
-            text="asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
-            @close="close"
-        />
-
         <!-- Footer -->
-        <v-footer app>
-            <span>&copy; 2019</span>
+        <v-footer app padless>
+            <v-col class="text-right" cols="12">
+                <v-icon>email</v-icon>
+                seungdeokhan@naver.com
+            </v-col>
         </v-footer>
     </v-app>
 </template>
 
 <script>
 import SideBar from '@/components/SideBar.vue';
-import Modal from '@/components/Modal.vue';
 
 export default {
     components: {
-        SideBar,
-        Modal
+        SideBar
     },
-    // props: {
-    //     source: String
-    // },
     data: () => ({
-        openSideBar: false,
-        isOpen: false,
-        ty: 2
+        openSideBar: false
     }),
     created() {
         this.$vuetify.theme.dark = true;
@@ -97,12 +87,6 @@ export default {
     methods: {
         close() {
             this.isOpen = false;
-        },
-        test() {
-            this.$root.cnfirm({
-                type: 'error',
-                cnfirmMssage: 'aaaa?'
-            });
         }
     }
 };
