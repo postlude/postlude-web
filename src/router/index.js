@@ -22,6 +22,11 @@ const routes = [
         path: '/sample',
         name: 'sample',
         component: () => import('../views/Sample.vue')
+    },
+    {
+        path: '/vuetify',
+        name: 'vuetify',
+        component: () => import('../views/Vuetify.vue')
     }
 ];
 

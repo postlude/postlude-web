@@ -6,5 +6,8 @@
  */
 
 module.exports = {
-    lintOnSave: false // 빌드나 실행 시에 lint 에러가 있더라도 빌드 에러가 나지 않음
+    lintOnSave: false,
+    transpileDependencies: [
+        'vuetify'
+    ]
 };
