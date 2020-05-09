@@ -13,7 +13,7 @@
 
         <!-- Content -->
         <v-content>
-            <v-container class="fill-height" fluid>
+            <v-container fluid>
                 <!-- <v-row align="center" justify="center">
                     <v-col class="shrink">
                         <v-tooltip right>
