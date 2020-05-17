@@ -32,14 +32,22 @@ new Vue({
         },
         /**
          * @description ElementUI confirm
-         * @param {Object} arg { title, mssage, cnfrmTxt, cancelTxt, ty, excMssageTy, excMssage, cnfrmFunc }
+         * @param {Object} arg { title, mssage, cnfrmTxt, cancelTxt, ty, excMssageTy, excMssage, cnfrmFunc, fnlyFunc }
          */
         async cnfrm(arg) {
-            try {
-                const {
-                    title, mssage, cnfrmTxt, cancelTxt = '취소', ty = 'warning', excMssageTy = 'success', excMssage, cnfrmFunc
-                } = arg;
+            const {
+                title,
+                mssage,
+                cnfrmTxt,
+                cancelTxt,
+                ty = 'warning',
+                excMssageTy = 'success',
+                excMssage,
+                cnfrmFunc,
+                fnlyFunc = () => {}
+            } = arg;
 
+            try {
                 await this.$confirm(mssage, title, {
                     confirmButtonText: cnfrmTxt,
                     cancelButtonText: cancelTxt,
@@ -54,6 +62,8 @@ new Vue({
                     console.error(e);
                     this.$message({ type: 'error', message: '에러가 발생했습니다.' });
                 }
+            } finally {
+                await fnlyFunc();
             }
         }
     },
