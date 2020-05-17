@@ -76,6 +76,7 @@ export default {
                 cnfrmFunc: async () => {
                     this.loading = true;
                     await saveMainCmd(this.mainCmd);
+                    this.mainCmd = {};
                 },
                 fnlyFunc: () => {
                     this.loading = false;
