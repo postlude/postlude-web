@@ -53,7 +53,7 @@ export default {
          */
         ty: {
             type: Number,
-            default: null,
+            default: 0,
             required: true,
             validator: value => (value >= 0 && value <= 4)
         },
@@ -64,10 +64,6 @@ export default {
         title: {
             type: String,
             default: ''
-        },
-        iconTy: {
-            type: Number,
-            default: null
         },
         text: {
             type: String,

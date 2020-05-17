@@ -1,21 +1,19 @@
 <template>
-    <v-toolbar>
-        <v-toolbar-title>신규 등록</v-toolbar-title>
+    <v-card>
+        <v-card-title>신규 등록</v-card-title>
 
-        <template v-slot:extension>
-            <v-tabs :centered="true" :grow="true">
-                <v-tab>명령어</v-tab>
-                <v-tab>실행문</v-tab>
+        <v-tabs :centered="true" :grow="true">
+            <v-tab>명령어</v-tab>
+            <v-tab>실행문</v-tab>
 
-                <v-tab-item>
-                    <cmd-save />
-                </v-tab-item>
-                <v-tab-item>
-                    2222
-                </v-tab-item>
-            </v-tabs>
-        </template>
-    </v-toolbar>
+            <v-tab-item>
+                <cmd-save />
+            </v-tab-item>
+            <v-tab-item>
+                2222
+            </v-tab-item>
+        </v-tabs>
+    </v-card>
 </template>
 
 <script>
