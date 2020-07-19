@@ -22,6 +22,11 @@ const routes = [
         path: '/vuetify',
         name: 'vuetify',
         component: () => import('../views/Vuetify.vue')
+    },
+    {
+        path: '/save',
+        name: 'save',
+        component: () => import('../views/Save.vue')
     }
 ];
 
