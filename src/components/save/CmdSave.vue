@@ -30,7 +30,7 @@
 
                     <!-- 서브 명령어 입력 영역 -->
                     <v-expansion-panels>
-                        <v-expansion-panel v-for="(sub, i) in subCmd" :key="i">
+                        <v-expansion-panel v-for="(sub, i) in subCmdList" :key="i">
                             <v-expansion-panel-header>
                                 {{ sub.cmd || `서브 명령어 ${i + 1}` }}
                             </v-expansion-panel-header>
@@ -55,30 +55,29 @@
                                     :counter="500"
                                     label="예시"
                                 />
+                                <div class="d-flex justify-end">
+                                    <v-btn icon color="error" @click="rmSubCmd(i)">
+                                        <v-icon>mdi-delete</v-icon>
+                                    </v-btn>
+                                </div>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </v-expansion-panels>
                 </v-form>
 
                 <!-- 버튼 영역 -->
-                <div class="d-flex justify-end">
-                    <v-btn
-                        large color="error" class="ma-2"
-                        @click="reset"
-                    >
-                        초기화
+                <div class="d-flex justify-space-between">
+                    <v-btn color="error" class="ma-2" @click="reset">
+                        <v-icon>mdi-backup-restore</v-icon>
+                    </v-btn>
+                    <v-btn color="success" class="ma-2" @click="addSub">
+                        <v-icon>mdi-plus-box</v-icon>
                     </v-btn>
                     <v-btn
-                        large color="success" class="ma-2"
-                        @click="addSub"
+                        color="primary" class="ma-2" :loading="loading"
+                        @click="regist"
                     >
-                        서브 명령어 추가
-                    </v-btn>
-                    <v-btn
-                        large color="primary" class="ma-2"
-                        :loading="loading" @click="regist"
-                    >
-                        등록
+                        <v-icon>mdi-pencil-box</v-icon>
                     </v-btn>
                 </div>
             </v-col>
@@ -100,7 +99,7 @@ export default {
                 frmt: null,
                 ex: null
             },
-            subCmd: []
+            subCmdList: []
         };
     },
     methods: {
@@ -109,15 +108,14 @@ export default {
          */
         reset() {
             this.mainCmd = {};
-            this.subCmd = [];
-            this.$message({ message: '모든 입력 값을 초기화했습니다.', type: 'error' });
+            this.subCmdList = [];
         },
         /**
          * @description 입력 값 체크
          */
         isValidInput() {
             if (this.mainCmd.cmd) {
-                const isValidSub = this.subCmd.every(sub => sub.cmd);
+                const isValidSub = this.subCmdList.every(sub => sub.cmd);
                 if (isValidSub) {
                     return true;
                 } else {
@@ -130,33 +128,43 @@ export default {
         /**
          * @description 명령어 등록
          */
-        regist() {
-            if (this.isValidInput()) {
-                this.$root.cnfrm({
-                    title: '명령어 등록',
-                    mssage: '등록하시겠습니까?',
-                    excMssage: '등록되었습니다.',
-                    cnfrmFunc: async () => {
-                        this.loading = true;
-                        await saveMainCmd({
-                            mainCmd: this.mainCmd,
-                            subCmd: this.subCmd
-                        });
-                        this.mainCmd = {};
-                    },
-                    fnlyFunc: () => {
-                        this.loading = false;
+        async regist() {
+            try {
+                if (this.isValidInput()) {
+                    await this.$confirm('등록하시겠습니까?', '명령어 등록', { type: 'warning' });
+
+                    const { code } = await saveMainCmd({
+                        ...this.mainCmd,
+                        subCmdList: this.subCmdList
+                    });
+
+                    if (code === 1000) {
+                        this.$message({ message: '등록되었습니다.', type: 'success' });
+                        this.reset();
+                    } else {
+                        throw new Error();
                     }
-                });
-            } else {
-                this.$message({ message: '입력 값을 확인해주세요.', type: 'warning' });
+                } else {
+                    this.$message({ message: '입력 값을 확인해주세요.', type: 'warning' });
+                }
+            } catch (err) {
+                if (err !== 'cancel') {
+                    console.error(err);
+                    this.$message({ type: 'error', message: '에러가 발생했습니다.' });
+                }
             }
         },
         /**
          * @description 서브 명령어 추가
          */
         addSub() {
-            this.subCmd.push({});
+            this.subCmdList.push({});
+        },
+        /**
+         * @description 서브 명령어 제거
+         */
+        rmSubCmd(idx) {
+            this.subCmdList.splice(idx, 1);
         }
     }
 };
