@@ -1,10 +1,10 @@
 import { post, get } from './common';
 
 /**
- * @description 메인 명령어 생성
+ * @description 명령어 저장
  * @param {Object} data
  */
-export const saveMainCmd = data => post({ url: '/main-cmd', data })();
+export const saveCmd = data => post({ url: '/cmd', data })();
 
 /**
  * @description 메인 명령어 1개 loads

@@ -75,7 +75,7 @@
                     </v-btn>
                     <v-btn
                         color="primary" class="ma-2" :loading="loading"
-                        @click="regist"
+                        @click="rgst"
                     >
                         <v-icon>mdi-pencil-box</v-icon>
                     </v-btn>
@@ -86,7 +86,8 @@
 </template>
 
 <script>
-import { saveMainCmd } from '@/api/main-cmd';
+import { RSPNS } from '@/util/define';
+import { saveCmd } from '@/api/cmd';
 
 export default {
     name: 'CmdSave',
@@ -113,7 +114,7 @@ export default {
         /**
          * @description 입력 값 체크
          */
-        isValidInput() {
+        isValidInpt() {
             if (this.mainCmd.cmd) {
                 const isValidSub = this.subCmdList.every(sub => sub.cmd);
                 if (isValidSub) {
@@ -128,21 +129,21 @@ export default {
         /**
          * @description 명령어 등록
          */
-        async regist() {
+        async rgst() {
             try {
-                if (this.isValidInput()) {
+                if (this.isValidInpt()) {
                     await this.$confirm('등록하시겠습니까?', '명령어 등록', { type: 'warning' });
 
-                    const { code } = await saveMainCmd({
-                        ...this.mainCmd,
+                    const { code } = await saveCmd({
+                        mainCmd: this.mainCmd,
                         subCmdList: this.subCmdList
                     });
 
-                    if (code === 1000) {
+                    if (code === RSPNS.SUCCES) {
                         this.$message({ message: '등록되었습니다.', type: 'success' });
                         this.reset();
                     } else {
-                        throw new Error();
+                        throw new Error('[CmdSave] rgst - ERROR');
                     }
                 } else {
                     this.$message({ message: '입력 값을 확인해주세요.', type: 'warning' });
