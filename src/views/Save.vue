@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-title>신규 등록</v-card-title>
+        <v-card-title>등록</v-card-title>
 
         <v-tabs :centered="true" :grow="true">
             <v-tab>명령어</v-tab>

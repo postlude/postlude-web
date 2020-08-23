@@ -27,6 +27,11 @@ const routes = [
         path: '/save',
         name: 'save',
         component: () => import('../views/Save.vue')
+    },
+    {
+        path: '/srch',
+        name: 'srch',
+        component: () => import('../views/Srch.vue')
     }
 ];
 
