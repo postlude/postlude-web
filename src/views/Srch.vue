@@ -47,7 +47,7 @@
 
 <script>
 import { RSPNS } from '@/util/define';
-import { getCmdList } from '@/api/cmd';
+import { getCmdList } from '@/api/mainCmd';
 import { toKstDt } from '@/util/moment';
 
 export default {
