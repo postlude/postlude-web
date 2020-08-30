@@ -47,7 +47,7 @@
 
 <script>
 import { RSPNS } from '@/util/define';
-import { getCmdList } from '@/api/mainCmd';
+import { getMainCmdList } from '@/api/mainCmd';
 import { toKstDt } from '@/util/moment';
 
 export default {
@@ -114,7 +114,7 @@ export default {
          */
         async srchCmd() {
             try {
-                const { code, totCnt, mainCmdList } = await getCmdList({
+                const { code, totCnt, mainCmdList } = await getMainCmdList({
                     page: this.page,
                     mainCmd: this.input
                 });
