@@ -31,10 +31,24 @@
             <v-data-table
                 :headers="headers" :items="devDocList" :disable-sort="true"
                 :loading="isSrching" loading-text="검색 중" hide-default-footer
-                :hide-default-header="$store.getters.isPhone"
+                :mobile-breakpoint="0"
             >
                 <template v-slot:[`item.title`]="{ item }">
                     <a :href="item.url">{{ item.title }}</a>
+                </template>
+                <template v-slot:[`item.modify`]="{ item }">
+                    <v-btn color="success" :x-small="isPhone" @click="modifyDevDoc">
+                        <v-icon :small="isPhone">
+                            create
+                        </v-icon>
+                    </v-btn>
+                </template>
+                <template v-slot:[`item.rm`]="{ item }">
+                    <v-btn color="error" :x-small="isPhone" @click="rmDevDoc">
+                        <v-icon :small="isPhone">
+                            delete
+                        </v-icon>
+                    </v-btn>
                 </template>
             </v-data-table>
 
@@ -59,7 +73,9 @@ export default {
             page: 1,
             isSrching: false,
             headers: [
-                { text: '링크', value: 'title', align: 'center' }
+                { text: '링크', value: 'title', align: 'center' },
+                { text: '수정', value: 'modify', align: 'center' },
+                { text: '삭제', value: 'rm', align: 'center' }
             ],
             devDocList: [],
             totCnt: 0
@@ -68,6 +84,9 @@ export default {
     computed: {
         totPageCnt() {
             return Math.ceil(this.totCnt / 10);
+        },
+        isPhone() {
+            return this.$store.getters.isPhone;
         }
     },
     methods: {
@@ -109,6 +128,12 @@ export default {
 
                     this.totCnt = totCnt;
                     this.devDocList = devDocList;
+                    // this.devDocList = [
+                    //     { title: '통신할 때 꼭 지켜야 하는 약속, 프로토콜', url: 'https://www.youtube.com/watch?v=nYmixrYkMag&feature=youtu.be' },
+                    //     { title: 'title1', url: 'url1' },
+                    //     { title: 'title1', url: 'url1' }
+                    // ];
+                    // this.totCnt = 3;
                 } else {
                     this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
                 }
