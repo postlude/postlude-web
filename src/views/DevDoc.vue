@@ -26,6 +26,19 @@
                     </v-btn>
                 </v-col>
             </v-row>
+
+            <!-- 검색 결과 영역 -->
+            <v-data-table
+                :headers="headers" :items="devDocList" :disable-sort="true"
+                :loading="isSrching" loading-text="검색 중" hide-default-footer
+                :hide-default-header="$store.getters.isPhone"
+            >
+                <template v-slot:[`item.title`]="{ item }">
+                    <a :href="item.url">{{ item.title }}</a>
+                </template>
+            </v-data-table>
+
+            <v-pagination v-model="page" :length="totPageCnt" @input="srch(false)" />
         </v-container>
     </v-card>
 </template>
@@ -44,8 +57,18 @@ export default {
             ],
             srchWord: '',
             page: 1,
-            isSrching: false
+            isSrching: false,
+            headers: [
+                { text: '링크', value: 'title', align: 'center' }
+            ],
+            devDocList: [],
+            totCnt: 0
         };
+    },
+    computed: {
+        totPageCnt() {
+            return Math.ceil(this.totCnt / 10);
+        }
     },
     methods: {
         chckParam() {
@@ -78,11 +101,14 @@ export default {
                         this.page = 1;
                     }
 
-                    await getDevDocList({
+                    const { totCnt, devDocList } = await getDevDocList({
                         ty: this.srchTy,
                         page: this.page,
                         srchWord: this.srchWord
                     });
+
+                    this.totCnt = totCnt;
+                    this.devDocList = devDocList;
                 } else {
                     this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
                 }

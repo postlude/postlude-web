@@ -34,7 +34,7 @@ const routes = [
         component: () => import('../views/Save.vue')
     },
     {
-        path: 'srch',
+        path: '/srch',
         name: 'srch',
         component: () => import('../views/Srch.vue')
     }
