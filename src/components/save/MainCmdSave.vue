@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { RSPNS } from '@/util/define';
+import { RSPNS } from '@/util/dfn';
 import { saveMainCmd } from '@/api/mainCmd';
 import CmdSave from './CmdSave.vue';
 
