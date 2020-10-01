@@ -6,6 +6,11 @@ Vue.use(VueRouter);
 
 const routes = [
     {
+        path: '/dev-doc',
+        name: 'dev-doc',
+        component: () => import('../views/DevDoc.vue')
+    },
+    {
         path: '/',
         name: 'home',
         component: Home
@@ -29,7 +34,7 @@ const routes = [
         component: () => import('../views/Save.vue')
     },
     {
-        path: '/srch',
+        path: 'srch',
         name: 'srch',
         component: () => import('../views/Srch.vue')
     }
