@@ -8,6 +8,6 @@ import {
 export const getDevDocList = params => get({ url: '/dev-doc/list', params })();
 
 /**
- * @description 메인 명령어 1개 loads
+ * @description 개발 문서 추가
  */
-export const getMainCmd = () => get({ url: '/main-cmd' })();
+export const addDevDoc = data => post({ url: '/dev-doc', data })();

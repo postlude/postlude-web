@@ -6,9 +6,14 @@ Vue.use(VueRouter);
 
 const routes = [
     {
-        path: '/dev-doc',
-        name: 'dev-doc',
-        component: () => import('../views/DevDoc.vue')
+        path: '/dev-doc/list',
+        name: 'DevDocList',
+        component: () => import('../views/DevDocList.vue')
+    },
+    {
+        path: '/dev-doc/add',
+        name: 'DevDocAdd',
+        component: () => import('../views/DevDocAdd.vue')
     },
     {
         path: '/',
