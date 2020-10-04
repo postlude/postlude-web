@@ -5,7 +5,7 @@
         <v-container>
             <!-- 검색 영역 -->
             <v-row>
-                <v-col offset-lg="2" lg="2">
+                <v-col offset-lg="2" lg="2" cols="4">
                     <v-select
                         v-model="srchTy" :items="srchTyList" label="검색 타입"
                         required
@@ -17,7 +17,7 @@
                         :clearable="true" :disabled="isSrching" @keypress.enter="srchDevDoc(true)"
                     />
                 </v-col>
-                <v-col lg="1" class="d-none d-sm-flex">
+                <v-col lg="1" cols="3">
                     <v-btn
                         color="primary" class="mt-3" block
                         :disabled="isSrching" @click="srchDevDoc(true)"
