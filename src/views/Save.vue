@@ -20,13 +20,13 @@
 
 <script>
 import MainCmdSave from '@/components/save/MainCmdSave.vue';
-import SubCmdSave from '@/components/save/SubCmdSave.vue';
+// import SubCmdSave from '@/components/save/SubCmdSave.vue';
 
 export default {
     name: 'Save',
     components: {
-        MainCmdSave,
-        SubCmdSave
+        MainCmdSave
+        // SubCmdSave
     },
     data() {
         return {

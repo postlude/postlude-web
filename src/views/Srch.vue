@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { RSPNS } from '@/util/define';
+import { RSPNS } from '@/util/dfn';
 import { getMainCmdList } from '@/api/mainCmd';
 import { toKstDt } from '@/util/moment';
 

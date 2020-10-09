@@ -6,6 +6,16 @@ Vue.use(VueRouter);
 
 const routes = [
     {
+        path: '/dev-doc/list',
+        name: 'DevDocList',
+        component: () => import('../views/DevDocList.vue')
+    },
+    {
+        path: '/dev-doc/add',
+        name: 'DevDocAdd',
+        component: () => import('../views/DevDocAdd.vue')
+    },
+    {
         path: '/',
         name: 'home',
         component: Home
