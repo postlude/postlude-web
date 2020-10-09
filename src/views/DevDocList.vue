@@ -44,7 +44,7 @@
                     </v-btn>
                 </template>
                 <template v-slot:[`item.rm`]="{ item }">
-                    <v-btn color="error" :x-small="isPhone" @click="rmDevDoc">
+                    <v-btn color="error" :x-small="isPhone" @click="rmDevDoc(item.idx)">
                         <v-icon :small="isPhone">
                             delete
                         </v-icon>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { getDevDocList } from '@/api/devDoc';
+import { getDevDocList, rmDevDoc } from '@/api/devDoc';
 
 export default {
     name: 'DevDoc',
@@ -128,12 +128,6 @@ export default {
 
                     this.totCnt = totCnt;
                     this.devDocList = devDocList;
-                    // this.devDocList = [
-                    //     { title: '통신할 때 꼭 지켜야 하는 약속, 프로토콜', url: 'https://www.youtube.com/watch?v=nYmixrYkMag&feature=youtu.be' },
-                    //     { title: 'title1', url: 'url1' },
-                    //     { title: 'title1', url: 'url1' }
-                    // ];
-                    // this.totCnt = 3;
                 } else {
                     this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
                 }
@@ -142,6 +136,23 @@ export default {
                 this.$message({ type: 'error', message: '에러가 발생했습니다.' });
             } finally {
                 this.isSrching = false;
+            }
+        },
+        async rmDevDoc(idx) {
+            try {
+                await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
+                    confirmButtonText: '삭제',
+                    type: 'warning'
+                });
+
+                await rmDevDoc(idx);
+
+                this.$message({ type: 'success', message: '삭제되었습니다.' });
+            } catch (err) {
+                if (err !== 'cancel') {
+                    console.error(err);
+                    this.$message({ type: 'error', message: '에러가 발생했습니다.' });
+                }
             }
         }
     }
