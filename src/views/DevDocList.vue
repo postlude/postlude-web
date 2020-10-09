@@ -36,7 +36,14 @@
                 <template v-slot:[`item.title`]="{ item }">
                     <a :href="item.url">{{ item.title }}</a>
                 </template>
-                <template v-slot:[`item.modify`]="{ item }">
+                <template v-slot:[`item.copy`]="{ item }">
+                    <v-btn color="grey darken-1" :x-small="isPhone" @click="copyLink(item.url)">
+                        <v-icon :small="isPhone">
+                            link
+                        </v-icon>
+                    </v-btn>
+                </template>
+                <template v-slot:[`item.mdfy`]="{ item }">
                     <v-btn color="success" :x-small="isPhone" @click="openModal(item.idx)">
                         <v-icon :small="isPhone">
                             create
@@ -84,7 +91,8 @@ export default {
             isSrching: false,
             headers: [
                 { text: '링크', value: 'title', align: 'center' },
-                { text: '수정', value: 'modify', align: 'center' },
+                { text: '복사', value: 'copy', align: 'center' },
+                { text: '수정', value: 'mdfy', align: 'center' },
                 { text: '삭제', value: 'rm', align: 'center' }
             ],
             devDocList: [],
@@ -192,6 +200,9 @@ export default {
                 console.error(err);
                 this.$message({ type: 'error', message: '에러가 발생했습니다.' });
             }
+        },
+        copyLink(url) {
+            this.$clipboard(url);
         }
     }
 };
