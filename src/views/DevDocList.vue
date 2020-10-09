@@ -37,7 +37,7 @@
                     <a :href="item.url">{{ item.title }}</a>
                 </template>
                 <template v-slot:[`item.modify`]="{ item }">
-                    <v-btn color="success" :x-small="isPhone" @click="modifyDevDoc">
+                    <v-btn color="success" :x-small="isPhone" @click="openModal(item.idx)">
                         <v-icon :small="isPhone">
                             create
                         </v-icon>
@@ -54,14 +54,24 @@
 
             <v-pagination v-model="page" :length="totPageCnt" @input="srch(false)" />
         </v-container>
+
+        <dev-doc-modal
+            :is-modal-open="isModalOpen" :dev-doc="devDoc" :tag-ary="tagAry"
+            :tag-set="tagSet" @close="isModalOpen = false"
+        />
     </v-card>
 </template>
 
 <script>
-import { getDevDocList, rmDevDoc } from '@/api/devDoc';
+import DevDocModal from '@/components/dev-doc/DevDocModal.vue';
+import { RSPNS } from '@/util/dfn';
+import { getDevDocList, rmDevDoc, getDevDoc } from '@/api/devDoc';
 
 export default {
     name: 'DevDoc',
+    components: {
+        DevDocModal
+    },
     data() {
         return {
             srchTy: 1,
@@ -78,7 +88,11 @@ export default {
                 { text: '삭제', value: 'rm', align: 'center' }
             ],
             devDocList: [],
-            totCnt: 0
+            totCnt: 0,
+            isModalOpen: false,
+            devDoc: {},
+            tagAry: [],
+            tagSet: null
         };
     },
     computed: {
@@ -120,14 +134,18 @@ export default {
                         this.page = 1;
                     }
 
-                    const { totCnt, devDocList } = await getDevDocList({
+                    const { code, totCnt, devDocList } = await getDevDocList({
                         ty: this.srchTy,
                         page: this.page,
                         srchWord: this.srchWord
                     });
 
-                    this.totCnt = totCnt;
-                    this.devDocList = devDocList;
+                    if (code === RSPNS.SUCCES) {
+                        this.totCnt = totCnt;
+                        this.devDocList = devDocList;
+                    } else {
+                        throw new Error(code);
+                    }
                 } else {
                     this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
                 }
@@ -140,19 +158,39 @@ export default {
         },
         async rmDevDoc(idx) {
             try {
-                await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
+                const { code } = await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
                     confirmButtonText: '삭제',
                     type: 'warning'
                 });
 
-                await rmDevDoc(idx);
-
-                this.$message({ type: 'success', message: '삭제되었습니다.' });
+                if (code === RSPNS.SUCCES) {
+                    await rmDevDoc(idx);
+                    this.$message({ type: 'success', message: '삭제되었습니다.' });
+                } else {
+                    throw new Error(code);
+                }
             } catch (err) {
                 if (err !== 'cancel') {
                     console.error(err);
                     this.$message({ type: 'error', message: '에러가 발생했습니다.' });
                 }
+            }
+        },
+        async openModal(idx) {
+            try {
+                const { code, devDoc, tagAry } = await getDevDoc(idx);
+
+                if (code === RSPNS.SUCCES) {
+                    this.devDoc = devDoc;
+                    this.tagAry = tagAry;
+                    this.tagSet = new Set(tagAry);
+                    this.isModalOpen = true;
+                } else {
+                    throw new Error(code);
+                }
+            } catch (err) {
+                console.error(err);
+                this.$message({ type: 'error', message: '에러가 발생했습니다.' });
             }
         }
     }
