@@ -1,7 +1,9 @@
 import Axios from 'axios';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const DEFINE = {
-    BASE_URL: 'http://localhost:3000',
+    BASE_URL: isProd ? '52.78.186.52' : 'http://localhost:3000',
     CONTENT_TYPE: {
         JSON: 'application/json;charset=UTF-8',
         UPLOAD: 'application/x-www-form-urlencoded'
