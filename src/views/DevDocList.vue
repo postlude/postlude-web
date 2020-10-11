@@ -166,13 +166,14 @@ export default {
         },
         async rmDevDoc(idx) {
             try {
-                const { code } = await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
+                await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
                     confirmButtonText: '삭제',
                     type: 'warning'
                 });
 
+                const { code } = await rmDevDoc(idx);
+
                 if (code === RSPNS.SUCCES) {
-                    await rmDevDoc(idx);
                     this.$message({ type: 'success', message: '삭제되었습니다.' });
                 } else {
                     throw new Error(code);
