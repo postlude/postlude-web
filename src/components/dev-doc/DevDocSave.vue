@@ -6,10 +6,13 @@
             <v-row>
                 <v-col offset-lg="3" lg="6">
                     <v-form>
-                        <v-text-field v-model="devDoc.title" :counter="100" label="제목" />
+                        <v-text-field
+                            v-model="devDoc.title" :counter="100" :clearable="true"
+                            label="제목"
+                        />
                         <v-textarea
                             v-model="devDoc.url" :counter="500" :rows="3"
-                            label="링크 주소"
+                            :clearable="true" label="링크 주소"
                         />
                         <v-text-field v-model="tag" label="태그" @keypress.enter="addTag" />
                         <v-chip
