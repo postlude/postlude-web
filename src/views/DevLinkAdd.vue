@@ -1,21 +1,21 @@
 <template>
-    <dev-doc-save @save="addDevDoc" />
+    <dev-link-save @save="addDevLink" />
 </template>
 
 <script>
-import DevDocSave from '@/components/dev-doc/DevDocSave.vue';
-import { addDevDoc } from '@/api/devDoc';
+import DevLinkSave from '@/components/dev-link/DevLinkSave.vue';
+import { addDevLink } from '@/api/devLink';
 import { RSPNS } from '@/util/dfn';
 
 export default {
-    name: 'DevDocAdd',
+    name: 'DevLinkAdd',
     components: {
-        DevDocSave
+        DevLinkSave
     },
     methods: {
-        async addDevDoc({ devDoc, tagAry }) {
+        async addDevLink({ devLink, tagAry }) {
             try {
-                const { code } = await addDevDoc({ devDoc, tagAry });
+                const { code } = await addDevLink({ devLink, tagAry });
 
                 if (code === RSPNS.SUCCES) {
                     this.$message({ type: 'success', message: '등록 성공' });

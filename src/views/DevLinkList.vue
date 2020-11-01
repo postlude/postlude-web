@@ -14,13 +14,13 @@
                 <v-col lg="5">
                     <v-text-field
                         v-model="srchWord" label="검색어" required
-                        :clearable="true" :disabled="isSrching" @keypress.enter="srchDevDoc(true)"
+                        :clearable="true" :disabled="isSrching" @keypress.enter="srchDevLink(true)"
                     />
                 </v-col>
                 <v-col lg="1" cols="3">
                     <v-btn
                         color="primary" class="mt-3" block
-                        :disabled="isSrching" @click="srchDevDoc(true)"
+                        :disabled="isSrching" @click="srchDevLink(true)"
                     >
                         <v-icon>search</v-icon>
                     </v-btn>
@@ -29,7 +29,7 @@
 
             <!-- 검색 결과 영역 -->
             <v-data-table
-                :headers="headers" :items="devDocList" :disable-sort="true"
+                :headers="headers" :items="devLinkList" :disable-sort="true"
                 :loading="isSrching" loading-text="검색 중" hide-default-footer
                 :mobile-breakpoint="0"
             >
@@ -51,7 +51,7 @@
                     </v-btn>
                 </template>
                 <template v-slot:[`item.rm`]="{ item }">
-                    <v-btn color="error" :x-small="isPhone" @click="rmDevDoc(item.idx)">
+                    <v-btn color="error" :x-small="isPhone" @click="rmDevLink(item.idx)">
                         <v-icon :small="isPhone">
                             delete
                         </v-icon>
@@ -62,22 +62,22 @@
             <v-pagination v-model="page" :length="totPageCnt" @input="srch(false)" />
         </v-container>
 
-        <dev-doc-modal
-            :is-modal-open="isModalOpen" :dev-doc="devDoc" :tag-ary="tagAry"
+        <dev-link-modal
+            :is-modal-open="isModalOpen" :dev-link="devLink" :tag-ary="tagAry"
             :tag-set="tagSet" @close="isModalOpen = false"
         />
     </v-card>
 </template>
 
 <script>
-import DevDocModal from '@/components/dev-doc/DevDocModal.vue';
+import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
 import { RSPNS } from '@/util/dfn';
-import { getDevDocList, rmDevDoc, getDevDoc } from '@/api/devDoc';
+import { getDevLinkList, rmDevLink, getDevLink } from '@/api/devLink';
 
 export default {
-    name: 'DevDoc',
+    name: 'DevLink',
     components: {
-        DevDocModal
+        DevLinkModal
     },
     data() {
         return {
@@ -95,10 +95,10 @@ export default {
                 { text: '수정', value: 'mdfy', align: 'center' },
                 { text: '삭제', value: 'rm', align: 'center' }
             ],
-            devDocList: [],
+            devLinkList: [],
             totCnt: 0,
             isModalOpen: false,
-            devDoc: {},
+            devLink: {},
             tagAry: [],
             tagSet: null
         };
@@ -131,7 +131,7 @@ export default {
         /**
          * @description 개발 문서 검색
          */
-        async srchDevDoc(isSrch) {
+        async srchDevLink(isSrch) {
             try {
                 const isValidParam = this.chckParam();
 
@@ -142,7 +142,7 @@ export default {
                         this.page = 1;
                     }
 
-                    const { code, totCnt, devDocList } = await getDevDocList({
+                    const { code, totCnt, devLinkList } = await getDevLinkList({
                         ty: this.srchTy,
                         page: this.page,
                         srchWord: this.srchWord
@@ -150,7 +150,7 @@ export default {
 
                     if (code === RSPNS.SUCCES) {
                         this.totCnt = totCnt;
-                        this.devDocList = devDocList;
+                        this.devLinkList = devLinkList;
                     } else {
                         throw new Error(code);
                     }
@@ -164,14 +164,14 @@ export default {
                 this.isSrching = false;
             }
         },
-        async rmDevDoc(idx) {
+        async rmDevLink(idx) {
             try {
                 await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
                     confirmButtonText: '삭제',
                     type: 'warning'
                 });
 
-                const { code } = await rmDevDoc(idx);
+                const { code } = await rmDevLink(idx);
 
                 if (code === RSPNS.SUCCES) {
                     this.$message({ type: 'success', message: '삭제되었습니다.' });
@@ -187,10 +187,10 @@ export default {
         },
         async openModal(idx) {
             try {
-                const { code, devDoc, tagAry } = await getDevDoc(idx);
+                const { code, devLink, tagAry } = await getDevLink(idx);
 
                 if (code === RSPNS.SUCCES) {
-                    this.devDoc = devDoc;
+                    this.devLink = devLink;
                     this.tagAry = tagAry;
                     this.tagSet = new Set(tagAry);
                     this.isModalOpen = true;

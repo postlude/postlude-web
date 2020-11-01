@@ -3,7 +3,7 @@
         <!-- Header -->
         <v-app-bar app clipped-left>
             <v-app-bar-nav-icon @click.stop="openSideBar = !openSideBar" />
-            <v-toolbar-title>My Cmd</v-toolbar-title>
+            <v-toolbar-title>POSTLUDE</v-toolbar-title>
         </v-app-bar>
 
         <!-- SideBar -->

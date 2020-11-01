@@ -1,28 +1,28 @@
 <template>
     <v-dialog v-model="isModalOpen" max-width="800">
-        <dev-doc-save
-            :dev-doc="devDoc" :tag-ary="tagAry" :tag-set="tagSet"
-            @save="mdfyDevDoc"
+        <dev-link-save
+            :dev-link="devLink" :tag-ary="tagAry" :tag-set="tagSet"
+            @save="mdfyDevLink"
         />
     </v-dialog>
 </template>
 
 <script>
-import DevDocSave from '@/components/dev-doc/DevDocSave.vue';
-import { mdfyDevDoc } from '@/api/devDoc';
+import DevLinkSave from '@/components/dev-link/DevLinkSave.vue';
+import { mdfyDevLink } from '@/api/devLink';
 import { RSPNS } from '@/util/dfn';
 
 export default {
-    name: 'DevDocModal',
+    name: 'DevLinkModal',
     components: {
-        DevDocSave
+        DevLinkSave
     },
     props: {
         isModalOpen: {
             type: Boolean,
             default: () => false
         },
-        devDoc: {
+        devLink: {
             type: Object,
             default: () => {}
         },
@@ -36,9 +36,9 @@ export default {
         }
     },
     methods: {
-        async mdfyDevDoc(arg) {
+        async mdfyDevLink(arg) {
             try {
-                const { code } = await mdfyDevDoc(arg);
+                const { code } = await mdfyDevLink(arg);
 
                 if (code === RSPNS.SUCCES) {
                     this.$message({ type: 'success', message: '수정 성공' });

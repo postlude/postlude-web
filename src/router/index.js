@@ -6,14 +6,14 @@ Vue.use(VueRouter);
 
 const routes = [
     {
-        path: '/dev-doc/list',
-        name: 'DevDocList',
-        component: () => import('../views/DevDocList.vue')
+        path: '/dev-link/list',
+        name: 'DevLinkList',
+        component: () => import('../views/DevLinkList.vue')
     },
     {
-        path: '/dev-doc/add',
-        name: 'DevDocAdd',
-        component: () => import('../views/DevDocAdd.vue')
+        path: '/dev-link/add',
+        name: 'DevLinkAdd',
+        component: () => import('../views/DevLinkAdd.vue')
     },
     {
         path: '/',
@@ -28,21 +28,21 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
-    {
-        path: '/vuetify',
-        name: 'vuetify',
-        component: () => import('../views/Vuetify.vue')
-    },
-    {
-        path: '/save',
-        name: 'save',
-        component: () => import('../views/Save.vue')
-    },
-    {
-        path: '/srch',
-        name: 'srch',
-        component: () => import('../views/Srch.vue')
-    }
+    // {
+    //     path: '/vuetify',
+    //     name: 'vuetify',
+    //     component: () => import('../views/Vuetify.vue')
+    // },
+    // {
+    //     path: '/save',
+    //     name: 'save',
+    //     component: () => import('../views/Save.vue')
+    // },
+    // {
+    //     path: '/srch',
+    //     name: 'srch',
+    //     component: () => import('../views/Srch.vue')
+    // }
 ];
 
 const router = new VueRouter({

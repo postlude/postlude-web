@@ -7,11 +7,11 @@
                 <v-col offset-lg="3" lg="6">
                     <v-form>
                         <v-text-field
-                            v-model="devDoc.title" :counter="100" :clearable="true"
+                            v-model="devLink.title" :counter="100" :clearable="true"
                             label="제목"
                         />
                         <v-textarea
-                            v-model="devDoc.url" :counter="500" :rows="3"
+                            v-model="devLink.url" :counter="500" :rows="3"
                             :clearable="true" label="링크 주소"
                         />
                         <v-text-field v-model="tag" label="태그" @keypress.enter="addTag" />
@@ -26,7 +26,7 @@
             </v-row>
             <v-row>
                 <v-col offset-lg="5" lg="2">
-                    <v-btn color="primary" block @click="saveDevDoc">
+                    <v-btn color="primary" block @click="saveDevLink">
                         <v-icon>create</v-icon>
                     </v-btn>
                 </v-col>
@@ -37,9 +37,9 @@
 
 <script>
 export default {
-    name: 'DevDocSave',
+    name: 'DevLinkSave',
     props: {
-        devDoc: {
+        devLink: {
             type: Object,
             default: () => ({
                 idx: 0,
@@ -76,18 +76,18 @@ export default {
             this.tagAry.splice(idx, 1);
         },
         chckParam() {
-            const { title, url } = this.devDoc;
+            const { title, url } = this.devLink;
             if (title && url && this.tagAry.length) {
                 return true;
             } else {
                 return false;
             }
         },
-        saveDevDoc() {
+        saveDevLink() {
             const isValid = this.chckParam();
             if (isValid) {
                 this.$emit('save', {
-                    devDoc: this.devDoc,
+                    devLink: this.devLink,
                     tagAry: this.tagAry
                 });
             } else {
