@@ -1,8 +1,8 @@
 <template>
-    <v-dialog v-model="isModalOpen" max-width="800">
+    <v-dialog v-model="isModalOpen" max-width="800" @click:outside="$emit('close')">
         <dev-link-save
             :dev-link="devLink" :tag-ary="tagAry" :tag-set="tagSet"
-            @save="mdfyDevLink"
+            :ty="2" @save="mdfyDevLink" @close="$emit('close')"
         />
     </v-dialog>
 </template>
