@@ -44,7 +44,7 @@ export default {
                     this.$message({ type: 'success', message: '수정 성공' });
                     this.$emit('close');
                 } else {
-                    throw code;
+                    throw new Error(code);
                 }
             } catch (err) {
                 console.error(err);

@@ -31,6 +31,13 @@
                     </v-btn>
                 </v-col>
             </v-row>
+            <v-row v-if="isAdd">
+                <v-col offset-lg="5" lg="2">
+                    <v-btn color="error" block @click="resetInpt">
+                        <v-icon>remove_circle</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
         </v-container>
     </v-card>
 </template>
@@ -39,6 +46,10 @@
 export default {
     name: 'DevLinkSave',
     props: {
+        isAdd: {
+            type: Boolean,
+            default: () => false
+        },
         devLink: {
             type: Object,
             default: () => ({
@@ -93,6 +104,13 @@ export default {
             } else {
                 this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
             }
+        },
+        resetInpt() {
+            this.devLink.idx = 0;
+            this.devLink.title = '';
+            this.devLink.url = '';
+            this.tagAry.splice(0);
+            this.tagSet.clear();
         }
     }
 };

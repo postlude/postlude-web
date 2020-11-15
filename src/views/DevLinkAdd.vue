@@ -1,5 +1,5 @@
 <template>
-    <dev-link-save @save="addDevLink" />
+    <dev-link-save :is-add="true" @save="addDevLink" />
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
                 if (code === RSPNS.SUCCES) {
                     this.$message({ type: 'success', message: '등록 성공' });
                 } else {
-                    throw code;
+                    throw new Error(code);
                 }
             } catch (err) {
                 console.error(err);
