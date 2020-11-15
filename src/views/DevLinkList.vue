@@ -13,12 +13,12 @@
                 </v-col>
                 <v-col lg="5">
                     <v-autocomplete
-                        v-if="srchTy === 1" v-model="srchWord" label="검색어"
-                        :items="tagList" no-data-text=""
-                        :clearable="true" :disabled="isSrching" @keypress.enter="srchDevLink(true)"
+                        v-show="srchTy === 1" v-model="srchWord" label="검색어"
+                        :items="tagList" no-data-text="" :clearable="true"
+                        :disabled="isSrching" @input="srchDevLink(true)"
                     />
                     <v-text-field
-                        v-else v-model="srchWord" label="검색어"
+                        v-show="srchTy === 2" v-model="srchWord" label="검색어"
                         required :clearable="true" :disabled="isSrching"
                         @keypress.enter="srchDevLink(true)"
                     />
