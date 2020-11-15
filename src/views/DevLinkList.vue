@@ -12,9 +12,15 @@
                     />
                 </v-col>
                 <v-col lg="5">
-                    <v-text-field
-                        v-model="srchWord" label="검색어" required
+                    <v-autocomplete
+                        v-if="srchTy === 1" v-model="srchWord" label="검색어"
+                        :items="tagList" no-data-text=""
                         :clearable="true" :disabled="isSrching" @keypress.enter="srchDevLink(true)"
+                    />
+                    <v-text-field
+                        v-else v-model="srchWord" label="검색어"
+                        required :clearable="true" :disabled="isSrching"
+                        @keypress.enter="srchDevLink(true)"
                     />
                 </v-col>
                 <v-col lg="1" cols="3">
@@ -71,8 +77,9 @@
 
 <script>
 import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
-import { RSPNS } from '@/util/dfn';
+import { RSPNS, TAG_TY } from '@/util/dfn';
 import { getDevLinkList, rmDevLink, getDevLink } from '@/api/devLink';
+import { getTagList } from '@/api/tag';
 
 export default {
     name: 'DevLink',
@@ -100,7 +107,8 @@ export default {
             isModalOpen: false,
             devLink: {},
             tagAry: [],
-            tagSet: null
+            tagSet: null,
+            tagList: []
         };
     },
     computed: {
@@ -109,6 +117,18 @@ export default {
         },
         isPhone() {
             return this.$store.getters.isPhone;
+        }
+    },
+    async mounted() {
+        try {
+            const { code, tagList } = await getTagList(TAG_TY.LINK);
+            if (code === RSPNS.SUCCES) {
+                this.tagList = tagList.map(({ tag }) => tag);
+            } else {
+                throw new Error(code);
+            }
+        } catch (err) {
+            console.error(err);
         }
     },
     methods: {

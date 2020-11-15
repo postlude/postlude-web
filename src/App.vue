@@ -3,7 +3,9 @@
         <!-- Header -->
         <v-app-bar app clipped-left>
             <v-app-bar-nav-icon @click.stop="openSideBar = !openSideBar" />
-            <v-toolbar-title>POSTLUDE</v-toolbar-title>
+            <v-toolbar-title class="title" @click="moveProfile">
+                POSTLUDE
+            </v-toolbar-title>
         </v-app-bar>
 
         <!-- SideBar -->
@@ -19,12 +21,12 @@
         </v-content>
 
         <!-- Footer -->
-        <v-footer app padless class="text-right">
+        <!-- <v-footer app padless class="text-right">
             <p class="my-auto ml-auto">
                 <v-icon>email</v-icon>
                 seungdeokhan@naver.com
             </p>
-        </v-footer>
+        </v-footer> -->
     </v-app>
 </template>
 
@@ -44,7 +46,16 @@ export default {
     methods: {
         close() {
             this.isOpen = false;
+        },
+        moveProfile() {
+            this.$router.push({ name: 'Profile' });
         }
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    .title {
+        cursor: pointer
+    }
+</style>
