@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-const DEFINE = {
+const DFN = {
     BASE_URL: isProd ? 'http://54.180.151.52' : 'http://localhost:3000',
     CONTENT_TYPE: {
         JSON: 'application/json;charset=UTF-8',
@@ -18,11 +18,11 @@ const init = ({
     url,
     params = {},
     data = {},
-    baseURL = DEFINE.BASE_URL,
+    baseURL = DFN.BASE_URL,
     cntntTy = 'JSON'
 }) => async () => {
     try {
-        const headers = { 'content-type': DEFINE.CONTENT_TYPE[cntntTy] };
+        const headers = { 'content-type': DFN.CONTENT_TYPE[cntntTy] };
 
         const { status, data: res } = await Axios({
             baseURL,
