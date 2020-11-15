@@ -31,10 +31,17 @@
                     </v-btn>
                 </v-col>
             </v-row>
-            <v-row v-if="isAdd">
+            <v-row v-if="ty === 1">
                 <v-col offset-lg="5" lg="2">
                     <v-btn color="error" block @click="resetInpt">
                         <v-icon>remove_circle</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-row v-if="ty === 2">
+                <v-col offset-lg="5" lg="2">
+                    <v-btn color="default" block @click="$emit('close')">
+                        <v-icon>close</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -46,9 +53,9 @@
 export default {
     name: 'DevLinkSave',
     props: {
-        isAdd: {
-            type: Boolean,
-            default: () => false
+        ty: {
+            type: Number,
+            default: () => 1
         },
         devLink: {
             type: Object,
