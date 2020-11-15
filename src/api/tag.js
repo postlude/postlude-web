@@ -1,4 +1,4 @@
-import { get } from './common';
+import { get } from './cmn';
 
 /**
  * @description 타입에 따른 모든 태그 리스트 로드

@@ -1,6 +1,6 @@
 import {
     post, get, put, del
-} from './common';
+} from './cmn';
 
 /**
  * @description 개발 링크 검색
