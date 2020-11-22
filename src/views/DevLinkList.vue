@@ -13,12 +13,12 @@
                 </v-col>
                 <v-col lg="5">
                     <v-autocomplete
-                        v-show="srchTy === 1" v-model="srchWord" label="검색어"
-                        :items="tagList" no-data-text="" :clearable="true"
-                        :disabled="isSrching" @input="srchDevLink(true)"
+                        v-show="srchTy === 1" v-model="srchTagAry" label="검색어"
+                        multiple no-data-text="" :clearable="true"
+                        :items="tagList" :disabled="isSrching"
                     />
                     <v-text-field
-                        v-show="srchTy === 2" v-model="srchWord" label="검색어"
+                        v-show="srchTy === 2" v-model="srchTitle" label="검색어"
                         required :clearable="true" :disabled="isSrching"
                         @keypress.enter="srchDevLink(true)"
                     />
@@ -93,7 +93,8 @@ export default {
                 { text: '태그', value: 1 },
                 { text: '제목', value: 2 }
             ],
-            srchWord: '',
+            srchTagAry: [],
+            srchTitle: '',
             page: 1,
             isSrching: false,
             headers: [
@@ -133,17 +134,14 @@ export default {
     },
     methods: {
         chckParam() {
-            if (this.srchWord) {
-                // 제목 검색인 경우 3글자부터 검색 가능
-                if (this.srchTy === 2) {
-                    if (this.srchWord.length > 2) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
+            if (this.srchTy === 1) { // 태그 검색
+                if (this.srchTagAry.length) {
                     return true;
+                } else {
+                    return false;
                 }
+            } else if (this.srchTitle.length > 2) { // 제목 검색
+                return true;
             } else {
                 return false;
             }
@@ -165,7 +163,8 @@ export default {
                     const { code, totCnt, devLinkList } = await getDevLinkList({
                         ty: this.srchTy,
                         page: this.page,
-                        srchWord: this.srchWord
+                        srchTitle: this.srchTitle,
+                        srchTagAry: JSON.stringify(this.srchTagAry)
                     });
 
                     if (code === RSPNS.SUCCES) {
