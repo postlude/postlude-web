@@ -13,6 +13,6 @@ export const RSPNS = {
  * @description 태그 타입
  */
 export const TAG_TY = {
-    LINK: 1,
-    STMT: 2
+    DEV_LINK: 1,
+    EXEC_STMT: 2
 };
