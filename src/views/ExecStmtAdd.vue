@@ -1,21 +1,21 @@
 <template>
-    <dev-link-save @save="addDevLink" />
+    <exec-stmt-save @save="addExecStmt" />
 </template>
 
 <script>
-import DevLinkSave from '@/components/dev-link/DevLinkSave.vue';
-import { addDevLink } from '@/api/devLink';
+import ExecStmtSave from '@/components/exec-stmt/ExecStmtSave.vue';
 import { RSPNS } from '@/util/dfn';
+import { addExecStmt } from '@/api/execStmt';
 
 export default {
-    name: 'DevLinkAdd',
+    name: 'ExecStmtAdd',
     components: {
-        DevLinkSave
+        ExecStmtSave
     },
     methods: {
-        async addDevLink({ devLink, tagAry }) {
+        async addExecStmt({ execStmt, tagAry }) {
             try {
-                const { code } = await addDevLink({ devLink, tagAry });
+                const { code } = await addExecStmt({ execStmt, tagAry });
 
                 if (code === RSPNS.SUCCES) {
                     this.$message({ type: 'success', message: '등록 성공' });
