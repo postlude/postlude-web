@@ -13,12 +13,12 @@
                 </v-col>
                 <v-col lg="5">
                     <v-autocomplete
-                        v-show="srchTy === 1" v-model="srchTagAry" label="검색어"
+                        v-show="srchTy === 1" v-model="srchTagAry" label="태그"
                         multiple no-data-text="" :clearable="true"
                         :items="tagList" :disabled="isSrching"
                     />
                     <v-text-field
-                        v-show="srchTy === 2" v-model="srchTitle" label="검색어"
+                        v-show="srchTy === 2" v-model="srchTitle" label="제목"
                         required :clearable="true" :disabled="isSrching"
                         @keypress.enter="srchDevLink(true)"
                     />

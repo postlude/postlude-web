@@ -13,12 +13,12 @@
                 </v-col>
                 <v-col lg="5">
                     <v-autocomplete
-                        v-show="srchTy === 1" v-model="srchTagAry" label="검색어"
+                        v-show="srchTy === 1" v-model="srchTagAry" label="태그"
                         multiple no-data-text="" :clearable="true"
                         :items="tagList" :disabled="isSrching"
                     />
                     <v-text-field
-                        v-show="srchTy === 2" v-model="srchTitle" label="검색어"
+                        v-show="srchTy === 2" v-model="srchTitle" label="제목"
                         required :clearable="true" :disabled="isSrching"
                         @keypress.enter="srchExecStmt(true)"
                     />
@@ -50,7 +50,7 @@
                     </v-btn>
                 </template>
                 <template v-slot:[`item.rm`]="{ item }">
-                    <v-btn color="error" :x-small="isPhone" @click="rmDevLink(item.idx)">
+                    <v-btn color="error" :x-small="isPhone" @click="rmExecStmt(item.idx)">
                         <v-icon :small="isPhone">
                             delete
                         </v-icon>
@@ -71,7 +71,7 @@
 <script>
 import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
 import { RSPNS, TAG_TY } from '@/util/dfn';
-import { getExecStmtList } from '@/api/execStmt';
+import { getExecStmtList, rmExecStmt } from '@/api/execStmt';
 import { getTagList } from '@/api/tag';
 
 export default {
@@ -175,14 +175,14 @@ export default {
                 this.isSrching = false;
             }
         },
-        async rmDevLink(idx) {
+        async rmExecStmt(idx) {
             try {
                 await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
                     confirmButtonText: '삭제',
                     type: 'warning'
                 });
 
-                const { code } = await rmDevLink(idx);
+                const { code } = await rmExecStmt(idx);
 
                 if (code === RSPNS.SUCCES) {
                     this.$message({ type: 'success', message: '삭제되었습니다.' });
