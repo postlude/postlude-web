@@ -61,23 +61,23 @@
             <v-pagination v-model="page" :length="totPageCnt" @input="srch(false)" />
         </v-container>
 
-        <dev-link-modal
-            :is-modal-open="isModalOpen" :dev-link="devLink" :tag-ary="tagAry"
+        <exec-stmt-modal
+            :is-modal-open="isModalOpen" :exec-stmt="execStmt" :tag-ary="tagAry"
             :tag-set="tagSet" @close="isModalOpen = false"
         />
     </v-card>
 </template>
 
 <script>
-import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
+import ExecStmtModal from '@/components/exec-stmt/ExecStmtModal.vue';
 import { RSPNS, TAG_TY } from '@/util/dfn';
-import { getExecStmtList, rmExecStmt } from '@/api/execStmt';
+import { getExecStmtList, rmExecStmt, getExecStmt } from '@/api/execStmt';
 import { getTagList } from '@/api/tag';
 
 export default {
     name: 'ExecStmtList',
     components: {
-        DevLinkModal
+        ExecStmtModal
     },
     data() {
         return {
@@ -98,7 +98,7 @@ export default {
             execStmtList: [],
             totCnt: 0,
             isModalOpen: false,
-            devLink: {},
+            execStmt: {},
             tagAry: [],
             tagSet: null,
             tagList: []
@@ -198,10 +198,10 @@ export default {
         },
         async openModal(idx) {
             try {
-                const { code, devLink, tagAry } = await getDevLink(idx);
+                const { code, execStmt, tagAry } = await getExecStmt(idx);
 
                 if (code === RSPNS.SUCCES) {
-                    this.devLink = devLink;
+                    this.execStmt = execStmt;
                     this.tagAry = tagAry;
                     this.tagSet = new Set(tagAry);
                     this.isModalOpen = true;
@@ -212,9 +212,6 @@ export default {
                 console.error(err);
                 this.$message({ type: 'error', message: '에러가 발생했습니다.' });
             }
-        },
-        copyLink(url) {
-            this.$clipboard(url);
         }
     }
 };
