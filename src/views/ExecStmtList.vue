@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-title>개발 링크 검색</v-card-title>
+        <v-card-title>실행문 검색</v-card-title>
 
         <v-container>
             <!-- 검색 영역 -->
@@ -20,13 +20,13 @@
                     <v-text-field
                         v-show="srchTy === 2" v-model="srchTitle" label="검색어"
                         required :clearable="true" :disabled="isSrching"
-                        @keypress.enter="srchDevLink(true)"
+                        @keypress.enter="srchExecStmt(true)"
                     />
                 </v-col>
                 <v-col lg="1" cols="3">
                     <v-btn
                         color="primary" class="mt-3" block
-                        :disabled="isSrching" @click="srchDevLink(true)"
+                        :disabled="isSrching" @click="srchExecStmt(true)"
                     >
                         <v-icon>search</v-icon>
                     </v-btn>
@@ -35,19 +35,12 @@
 
             <!-- 검색 결과 영역 -->
             <v-data-table
-                :headers="headers" :items="devLinkList" :disable-sort="true"
+                :headers="headers" :items="execStmtList" :disable-sort="true"
                 :loading="isSrching" loading-text="검색 중" hide-default-footer
                 :mobile-breakpoint="0"
             >
                 <template v-slot:[`item.title`]="{ item }">
                     <a :href="item.url">{{ item.title }}</a>
-                </template>
-                <template v-slot:[`item.copy`]="{ item }">
-                    <v-btn color="grey darken-1" :x-small="isPhone" @click="copyLink(item.url)">
-                        <v-icon :small="isPhone">
-                            link
-                        </v-icon>
-                    </v-btn>
                 </template>
                 <template v-slot:[`item.mdfy`]="{ item }">
                     <v-btn color="success" :x-small="isPhone" @click="openModal(item.idx)">
@@ -78,11 +71,11 @@
 <script>
 import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
 import { RSPNS, TAG_TY } from '@/util/dfn';
-import { getDevLinkList, rmDevLink, getDevLink } from '@/api/devLink';
+import { getExecStmtList } from '@/api/execStmt';
 import { getTagList } from '@/api/tag';
 
 export default {
-    name: 'DevLinkList',
+    name: 'ExecStmtList',
     components: {
         DevLinkModal
     },
@@ -98,12 +91,11 @@ export default {
             page: 1,
             isSrching: false,
             headers: [
-                { text: '링크', value: 'title', align: 'center' },
-                { text: '복사', value: 'copy', align: 'center' },
+                { text: '제목', value: 'title', align: 'center' },
                 { text: '수정', value: 'mdfy', align: 'center' },
                 { text: '삭제', value: 'rm', align: 'center' }
             ],
-            devLinkList: [],
+            execStmtList: [],
             totCnt: 0,
             isModalOpen: false,
             devLink: {},
@@ -122,7 +114,7 @@ export default {
     },
     async mounted() {
         try {
-            const { code, tagList } = await getTagList(TAG_TY.DEV_LINK);
+            const { code, tagList } = await getTagList(TAG_TY.EXEC_STMT);
             if (code === RSPNS.SUCCES) {
                 this.tagList = tagList.map(({ tag }) => tag);
             } else {
@@ -147,9 +139,9 @@ export default {
             }
         },
         /**
-         * @description 개발 문서 검색
+         * @description 실행문 검색
          */
-        async srchDevLink(isSrch) {
+        async srchExecStmt(isSrch) {
             try {
                 const isValidParam = this.chckParam();
 
@@ -160,7 +152,7 @@ export default {
                         this.page = 1;
                     }
 
-                    const { code, totCnt, devLinkList } = await getDevLinkList({
+                    const { code, totCnt, execStmtList } = await getExecStmtList({
                         ty: this.srchTy,
                         page: this.page,
                         srchTitle: this.srchTitle,
@@ -169,7 +161,7 @@ export default {
 
                     if (code === RSPNS.SUCCES) {
                         this.totCnt = totCnt;
-                        this.devLinkList = devLinkList;
+                        this.execStmtList = execStmtList;
                     } else {
                         throw new Error(code);
                     }
