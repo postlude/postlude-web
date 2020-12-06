@@ -5,6 +5,11 @@ Vue.use(VueRouter);
 
 const routes = [
     {
+        path: '/',
+        name: 'Profile',
+        component: () => import('../views/Profile.vue')
+    },
+    {
         path: '/dev-link/list',
         name: 'DevLinkList',
         component: () => import('../views/DevLinkList.vue')
@@ -15,9 +20,14 @@ const routes = [
         component: () => import('../views/DevLinkAdd.vue')
     },
     {
-        path: '/',
-        name: 'Profile',
-        component: () => import('../views/Profile.vue')
+        path: '/exec-stmt/list',
+        name: 'DevLinkList',
+        component: () => import('../views/ExecStmtList.vue')
+    },
+    {
+        path: '/exec-stmt/add',
+        name: 'DevLinkAdd',
+        component: () => import('../views/ExecStmtAdd.vue')
     }
 ];
 
