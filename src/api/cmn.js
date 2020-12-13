@@ -24,10 +24,10 @@ const init = ({
     cntntTy = 'JSON'
 }) => async () => {
     try {
-        const headers = { 'content-type': DFN.CONTENT_TYPE[cntntTy] };
-        if (DFN.TKN) {
-            headers.authorization = DFN.TKN;
-        }
+        const headers = {
+            'content-type': DFN.CONTENT_TYPE[cntntTy],
+            authorization: DFN.TKN
+        };
 
         const { status, data: res } = await Axios({
             baseURL,
