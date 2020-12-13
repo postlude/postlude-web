@@ -65,7 +65,7 @@
                 </template>
             </v-data-table>
 
-            <v-pagination v-model="page" :length="totPageCnt" @input="srch(false)" />
+            <v-pagination v-model="page" :length="totPageCnt" @input="srchDevLink(false)" />
         </v-container>
 
         <dev-link-modal
