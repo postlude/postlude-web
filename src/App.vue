@@ -32,6 +32,7 @@
 
 <script>
 import SideBar from '@/components/SideBar.vue';
+import { getCookie } from '@/util/cookie';
 
 export default {
     components: {
@@ -42,6 +43,8 @@ export default {
     }),
     created() {
         this.$vuetify.theme.dark = true;
+        const isSgnn = !!getCookie('tkn');
+        this.$store.commit('setSgnnSttus', isSgnn);
     },
     methods: {
         close() {

@@ -10,6 +10,11 @@ const routes = [
         component: () => import('../views/Profile.vue')
     },
     {
+        path: '/sgnn',
+        name: 'Sgnn',
+        component: () => import('../views/Sgnn.vue')
+    },
+    {
         path: '/dev-link/list',
         name: 'DevLinkList',
         component: () => import('../views/DevLinkList.vue')
