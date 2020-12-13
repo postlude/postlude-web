@@ -1,9 +1,11 @@
 import Axios from 'axios';
+import { getCookie } from '@/util/cookie';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 const DFN = {
     BASE_URL: isProd ? 'http://54.180.151.52' : 'http://localhost:3000',
+    TKN: getCookie('tkn'),
     CONTENT_TYPE: {
         JSON: 'application/json;charset=UTF-8',
         UPLOAD: 'application/x-www-form-urlencoded'
@@ -23,6 +25,9 @@ const init = ({
 }) => async () => {
     try {
         const headers = { 'content-type': DFN.CONTENT_TYPE[cntntTy] };
+        if (DFN.TKN) {
+            headers.authorization = DFN.TKN;
+        }
 
         const { status, data: res } = await Axios({
             baseURL,
