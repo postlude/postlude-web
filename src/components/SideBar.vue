@@ -34,7 +34,7 @@
         </v-list-item>
         <v-list-item link to="/exec-stmt/list">
             <v-list-item-action>
-                <v-icon>link</v-icon>
+                <v-icon>code</v-icon>
             </v-list-item-action>
             <v-list-item-content>
                 <v-list-item-title>실행문 검색</v-list-item-title>

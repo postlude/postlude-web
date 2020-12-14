@@ -14,8 +14,8 @@
                 <v-col lg="5">
                     <v-autocomplete
                         v-show="srchTy === 1" v-model="srchTagAry" label="태그"
-                        multiple no-data-text="" :clearable="true"
-                        :items="tagList" :disabled="isSrching"
+                        multiple no-data-text="" :items="tagList"
+                        :disabled="isSrching"
                     />
                     <v-text-field
                         v-show="srchTy === 2" v-model="srchTitle" label="제목"
@@ -39,8 +39,12 @@
                 :loading="isSrching" loading-text="검색 중" hide-default-footer
                 :mobile-breakpoint="0"
             >
-                <template v-slot:[`item.title`]="{ item }">
-                    <a :href="item.url">{{ item.title }}</a>
+                <template v-slot:[`item.copy`]="{ item }">
+                    <v-btn color="grey darken-1" :x-small="isPhone" @click="cpExecStmt(item.stmt)">
+                        <v-icon :small="isPhone">
+                            content_copy
+                        </v-icon>
+                    </v-btn>
                 </template>
                 <template v-slot:[`item.mdfy`]="{ item }">
                     <v-btn color="success" :x-small="isPhone" @click="openModal(item.idx)">
@@ -92,6 +96,7 @@ export default {
             isSrching: false,
             headers: [
                 { text: '제목', value: 'title', align: 'center' },
+                { text: '복사', value: 'copy', align: 'center' },
                 { text: '수정', value: 'mdfy', align: 'center' },
                 { text: '삭제', value: 'rm', align: 'center' }
             ],
@@ -212,6 +217,9 @@ export default {
                 console.error(err);
                 this.$message({ type: 'error', message: '에러가 발생했습니다.' });
             }
+        },
+        cpExecStmt(execStmt) {
+            this.$clipboard(execStmt);
         }
     }
 };

@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isModalOpen" max-width="800" @click:outside="$emit('close')">
+    <v-dialog v-model="isModalOpen" max-width="1000" @click:outside="$emit('close')">
         <exec-stmt-save
             :exec-stmt="execStmt" :tag-ary="tagAry" :tag-set="tagSet"
             :ty="2" @save="mdfyExecStmt" @close="$emit('close')"
