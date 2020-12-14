@@ -26,12 +26,12 @@ const routes = [
     },
     {
         path: '/exec-stmt/list',
-        name: 'DevLinkList',
+        name: 'ExecStmtList',
         component: () => import('../views/ExecStmtList.vue')
     },
     {
         path: '/exec-stmt/add',
-        name: 'DevLinkAdd',
+        name: 'ExecStmtAdd',
         component: () => import('../views/ExecStmtAdd.vue')
     }
 ];

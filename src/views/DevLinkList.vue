@@ -14,8 +14,8 @@
                 <v-col lg="5">
                     <v-autocomplete
                         v-show="srchTy === 1" v-model="srchTagAry" label="태그"
-                        multiple no-data-text="" :clearable="true"
-                        :items="tagList" :disabled="isSrching"
+                        multiple no-data-text="" :items="tagList"
+                        :disabled="isSrching"
                     />
                     <v-text-field
                         v-show="srchTy === 2" v-model="srchTitle" label="제목"
@@ -40,10 +40,10 @@
                 :mobile-breakpoint="0"
             >
                 <template v-slot:[`item.title`]="{ item }">
-                    <a :href="item.url">{{ item.title }}</a>
+                    <a :href="item.url" target="_blank">{{ item.title }}</a>
                 </template>
                 <template v-slot:[`item.copy`]="{ item }">
-                    <v-btn color="grey darken-1" :x-small="isPhone" @click="copyLink(item.url)">
+                    <v-btn color="grey darken-1" :x-small="isPhone" @click="cpLink(item.url)">
                         <v-icon :small="isPhone">
                             link
                         </v-icon>
@@ -221,7 +221,7 @@ export default {
                 this.$message({ type: 'error', message: '에러가 발생했습니다.' });
             }
         },
-        copyLink(url) {
+        cpLink(url) {
             this.$clipboard(url);
         }
     }

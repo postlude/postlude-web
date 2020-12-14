@@ -11,11 +11,11 @@
                             label="제목"
                         />
                         <v-textarea
-                            v-model="execStmt.dc" :counter="500" :rows="3"
+                            v-model="execStmt.dc" :counter="500" :rows="2"
                             :clearable="true" label="설명"
                         />
                         <v-textarea
-                            v-model="execStmt.stmt" :counter="1000" :rows="6"
+                            v-model="execStmt.stmt" :counter="1000" :rows="8"
                             :clearable="true" label="실행문"
                         />
                         <v-text-field v-model="tag" label="태그" @keypress.enter="addTag" />
