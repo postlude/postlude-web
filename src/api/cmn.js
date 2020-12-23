@@ -13,6 +13,18 @@ const DFN = {
 };
 
 /**
+ * @description 토큰 세팅
+ * @param {string} tkn
+ */
+export const setTkn = (tkn) => { DFN.TKN = tkn; };
+
+/**
+ * @description 토큰 삭제
+ * @param {string} tkn
+ */
+export const clearTkn = () => { delete DFN.TKN; };
+
+/**
  * @description axios 초기화 함수
  */
 const init = ({
