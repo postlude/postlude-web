@@ -66,7 +66,8 @@ export default {
             default: () => ({
                 idx: 0,
                 title: '',
-                url: ''
+                dc: '',
+                stmt: ''
             })
         },
         tagAry: {
