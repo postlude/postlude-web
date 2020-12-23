@@ -26,6 +26,7 @@
 <script>
 import { RSPNS } from '@/util/dfn';
 import { sgnn } from '@/api/user';
+import { setTkn } from '@/api/cmn';
 import { setCookie } from '@/util/cookie';
 
 export default {
@@ -55,6 +56,7 @@ export default {
                     switch (code) {
                         case RSPNS.SUCCES: {
                             setCookie('tkn', tkn, { expires: 1 });
+                            setTkn(tkn);
                             this.$store.commit('setSgnnSttus', true);
 
                             if (this.$route.name !== 'Profile') {

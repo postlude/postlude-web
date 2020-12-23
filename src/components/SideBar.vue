@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { clearTkn } from '@/api/cmn';
 import { rmCookie } from '@/util/cookie';
 
 export default {
@@ -64,6 +65,7 @@ export default {
     methods: {
         sgnt() {
             rmCookie('tkn');
+            clearTkn();
             this.$store.commit('setSgnnSttus', false);
 
             if (this.$route.name !== 'Profile') {
