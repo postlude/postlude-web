@@ -4,7 +4,7 @@ import { getCookie } from '@/util/cookie';
 const isProd = process.env.NODE_ENV === 'production';
 
 const DFN = {
-    BASE_URL: isProd ? 'http://54.180.151.52' : 'http://localhost:3000',
+    BASE_URL: isProd ? 'https://app.postlude-k8s.net/postlude/api' : 'http://localhost:3000',
     TKN: getCookie('tkn'),
     CONTENT_TYPE: {
         JSON: 'application/json;charset=UTF-8',
@@ -69,7 +69,7 @@ export const get = ({ params, ...args }) => init({
     ...args,
     params: {
         ...params,
-        forUncached: Date.now() // IE Cache 방지
+        forUncached: Date.now() // Cache 방지
     },
     method: 'get'
 });
