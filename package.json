@@ -1,28 +1,31 @@
 {
-  "name": "postlude-web-js",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --fix --ignore-path .gitignore"
-  },
-  "dependencies": {
-    "@mdi/font": "7.0.96",
-    "core-js": "^3.29.0",
-    "roboto-fontface": "*",
-    "vue": "^3.2.0",
-    "vue-router": "^4.0.0",
-    "vuetify": "^3.0.0",
-    "webfontloader": "^1.0.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^3.0.3",
-    "eslint": "^8.37.0",
-    "eslint-plugin-vue": "^9.3.0",
-    "sass": "^1.60.0",
-    "vite": "^4.2.0",
-    "vite-plugin-vuetify": "^1.0.0"
-  }
+	"name": "postlude-web",
+	"version": "2.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --fix --ignore-path .gitignore"
+	},
+	"dependencies": {
+		"@mdi/font": "7.0.96",
+		"core-js": "^3.29.0",
+		"roboto-fontface": "*",
+		"vue": "^3.2.0",
+		"vue-router": "^4.0.0",
+		"vuetify": "^3.0.0",
+		"webfontloader": "^1.0.0"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^3.0.3",
+		"eslint": "^8.37.0",
+		"eslint-config-prettier": "^8.6.0",
+		"eslint-plugin-vue": "^9.3.0",
+		"prettier": "^2.8.4",
+		"sass": "^1.60.0",
+		"vite": "^4.2.0",
+		"vite-plugin-vuetify": "^1.0.0",
+		"vue-eslint-parser": "^9.1.0"
+	}
 }
