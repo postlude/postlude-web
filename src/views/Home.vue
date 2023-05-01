@@ -1,7 +1,7 @@
 <template>
-  <HelloWorld />
+	<Profile />
 </template>
 
-<script setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
+<script lang="ts" setup>
+import Profile from '@/components/Profile.vue'
 </script>
