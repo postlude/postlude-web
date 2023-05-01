@@ -33,28 +33,28 @@ const items = [
 ];
 </script> -->
 
-<script lang="ts">
+<script>
 export default {
 	data: () => ({
 		isOpenSideBar: true,
 		items: [
 			{
 				title: 'Foo',
-				value: 'foo',
+				value: 'foo'
 			},
 			{
 				title: 'Bar',
-				value: 'bar',
+				value: 'bar'
 			},
 			{
 				title: 'Fizz',
-				value: 'fizz',
+				value: 'fizz'
 			},
 			{
 				title: 'Buzz',
-				value: 'buzz',
-			},
-		],
-	}),
-}
+				value: 'buzz'
+			}
+		]
+	})
+};
 </script>

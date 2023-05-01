@@ -12,5 +12,5 @@
 </template>
 
 <script setup>
-import AppBar from './layouts/AppBar.vue'
+import AppBar from './layouts/AppBar.vue';
 </script>

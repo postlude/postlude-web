@@ -2,6 +2,6 @@
 	<Profile />
 </template>
 
-<script lang="ts" setup>
-import Profile from '@/components/Profile.vue'
+<script setup>
+import Profile from '@/components/Profile.vue';
 </script>

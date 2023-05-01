@@ -25,16 +25,7 @@
 	</v-card>
 </template>
 
-<script lang="ts">
-export default {
-	name: 'Profile',
-	methods: {
-		moveBlog() {
-			window.open('http://postlude.github.io', '_black');
-		},
-		moveGithub() {
-			window.open('https://github.com/postlude', '_black');
-		}
-	}
-};
+<script setup>
+const moveBlog = () => window.open('http://postlude.github.io', '_black');
+const moveGithub = () => window.open('https://github.com/postlude', '_black');
 </script>
