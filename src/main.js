@@ -14,11 +14,13 @@ import { createApp } from "vue";
 import { registerPlugins } from "@/plugins";
 
 import Clipboard from 'v-clipboard';
+import VueMobileDetection from "vue-mobile-detection";
 
 const app = createApp(App);
 
 registerPlugins(app);
 
 app.use(Clipboard);
+app.use(VueMobileDetection);
 
 app.mount("#app");
