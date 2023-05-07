@@ -30,12 +30,18 @@
 		</template>
 
 		<template v-slot:[`item.copy`]="{ item }">
-			<!-- <v-btn color="grey darken-1" :x-small="isPhone" @click="cpLink(item.url)"> -->
-			<v-btn color="grey darken-1" @click="copyLink(item.raw.url)">
-				<!-- <v-icon :small="isPhone"> -->
-				<v-icon>
-					mdi-link
-				</v-icon>
+			<v-btn color="grey darken-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+				<v-icon>mdi-link</v-icon>
+			</v-btn>
+		</template>
+		<template v-slot:[`item.modify`]="{ item }">
+			<v-btn color="green-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+				<v-icon>mdi-pencil</v-icon>
+			</v-btn>
+		</template>
+		<template v-slot:[`item.remove`]="{ item }">
+			<v-btn color="red-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+				<v-icon>mdi-delete</v-icon>
 			</v-btn>
 		</template>
 
@@ -64,17 +70,19 @@
 	</v-table> -->
 
 	<!-- <v-pagination v-model="page" :length="totPageCnt" @input="srchDevLink(false)" /> -->
+	<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
 </template>
 
 <script>
 // import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
 // import { getDevLinkList, rmDevLink, getDevLink } from '@/api/devLink';
 // import { getTagList } from '@/api/tag';
+import Message from '@/components/Message.vue';
 
 export default {
 	name: 'DevLink',
 	components: {
-		// DevLinkModal
+		Message
 	},
 	data() {
 		return {
@@ -103,6 +111,15 @@ export default {
 			tagAry: [],
 			tagSet: null,
 			tagList: [],
+
+
+
+
+			message: {
+				isOpen: false,
+				text: '',
+				color: undefined
+			},
 			headers: [
 				{
 					title: 'title',
@@ -115,6 +132,18 @@ export default {
 					sortable: false,
 					align: 'center',
 					key: 'copy'
+				},
+				{
+					title: '수정',
+					sortable: false,
+					align: 'center',
+					key: 'modify'
+				},
+				{
+					title: '삭제',
+					sortable: false,
+					align: 'center',
+					key: 'remove'
 				}
 			],
 			totalCount: 4,
@@ -138,6 +167,11 @@ export default {
 					id: 4,
 					title: 'title4',
 					url: 'https://www.naver.com'
+				},
+				{
+					id: 5,
+					title: 'title5',
+					url: 'https://www.naver.com'
 				}
 			]
 		};
@@ -149,6 +183,9 @@ export default {
 		isPhone() {
 			// return this.$store.getters.isPhone;
 			return false;
+		},
+		buttonSize() {
+			return this.$isMobile() ? 'x-small' : 'default';
 		}
 	},
 	async mounted() {
@@ -254,6 +291,12 @@ export default {
 		// },
 		copyLink(url) {
 			this.$clipboard(url);
+			this.openMessage('복사됐습니다.');
+		},
+		openMessage(text, color) {
+			this.message.text = text;
+			this.message.color = color || undefined;
+			this.message.isOpen = true;
 		}
 	}
 };
