@@ -7,7 +7,10 @@
 	</v-app-bar>
 
 	<v-navigation-drawer v-model="isOpenSideBar">
-		<v-list :items="items"></v-list>
+		<v-list-item link to="/dev-link">
+			<v-icon>mdi-link</v-icon>
+			개발 링크
+		</v-list-item>
 	</v-navigation-drawer>
 </template>
 
