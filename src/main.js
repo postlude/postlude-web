@@ -13,8 +13,12 @@ import { createApp } from "vue";
 // Plugins
 import { registerPlugins } from "@/plugins";
 
+import Clipboard from 'v-clipboard';
+
 const app = createApp(App);
 
 registerPlugins(app);
+
+app.use(Clipboard);
 
 app.mount("#app");
