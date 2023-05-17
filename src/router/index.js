@@ -19,11 +19,11 @@ const routes = [
 	// }
 	{
 		path: "/",
-		component: () => import("@/views/Home.vue")
+		component: () => import("@/views/home")
 	},
 	{
 		path: "/dev-link",
-		component: () => import("@/views/DevLink.vue")
+		component: () => import("@/views/dev-link")
 	}
 ];
 

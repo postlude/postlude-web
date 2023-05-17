@@ -3,14 +3,12 @@
 		<v-layout>
 			<app-bar />
 			<v-main>
-				<!-- <v-container class="d-flex justify-center align-center"> -->
-					<router-view />
-				<!-- </v-container> -->
+				<router-view />
 			</v-main>
 		</v-layout>
 	</v-app>
 </template>
 
 <script setup>
-import AppBar from './layouts/AppBar.vue';
+import AppBar from '@/components/AppBar.vue';
 </script>
