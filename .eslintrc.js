@@ -13,6 +13,7 @@ module.exports = {
 		indent: ['error', 'tab'],
 		'space-before-function-paren': ['error', 'never'],
 		'comma-dangle': ['error', 'never'],
-		semi: ['error', 'always']
+		semi: ['error', 'always'],
+		'no-trailing-spaces': 'error'
 	}
 };
