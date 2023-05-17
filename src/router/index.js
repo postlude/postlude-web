@@ -19,11 +19,11 @@ const routes = [
 	// }
 	{
 		path: "/",
-		component: () => import("@/views/home")
+		component: () => import("@/views/home/Home.vue")
 	},
 	{
 		path: "/dev-link",
-		component: () => import("@/views/dev-link")
+		component: () => import("@/views/dev-link/DevLink.vue")
 	}
 ];
 
