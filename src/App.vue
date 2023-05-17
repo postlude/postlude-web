@@ -3,9 +3,9 @@
 		<v-layout>
 			<app-bar />
 			<v-main>
-				<v-container class="d-flex justify-center align-center">
+				<!-- <v-container class="d-flex justify-center align-center"> -->
 					<router-view />
-				</v-container>
+				<!-- </v-container> -->
 			</v-main>
 		</v-layout>
 	</v-app>

@@ -1,5 +1,7 @@
 <template>
-	<Profile />
+	<v-container class="d-flex justify-center align-center">
+		<Profile />
+	</v-container>
 </template>
 
 <script setup>

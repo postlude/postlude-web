@@ -1,76 +1,45 @@
 <template>
-	<!-- <v-data-table :headers="headers" :items="devLinks" items-per-page="10" item-value="id"> -->
+	<v-container>
+		<v-row>
+			<v-col offset-lg="4" lg="3" offset="1" cols="8">
+				<v-text-field label="검색" variant="outlined" required :clearable="true" @keypress.enter="search" />
+			</v-col>
+			<v-col lg="1" cols="2">
+				<v-btn color="info" class="mt-3" block :disabled="isSearching" @click="search">
+					<v-icon>mdi-magnify</v-icon>
+				</v-btn>
+			</v-col>
+		</v-row>
 
-	<!-- <template v-slot:[`item.copy`]="{ item }">
-			<v-btn color="grey darken-1" :x-small="isPhone" @click="cpLink(item.url)">
-				<v-icon :small="isPhone">
-					link
-				</v-icon>
-			</v-btn>
-		</template> -->
-	<!-- <template v-slot:[`item.mdfy`]="{ item }">
-			<v-btn color="success" :x-small="isPhone" @click="openModal(item.idx)">
-				<v-icon :small="isPhone">
-					create
-				</v-icon>
-			</v-btn>
-		</template> -->
-	<!-- <template v-slot:[`item.rm`]="{ item }">
-			<v-btn color="error" :x-small="isPhone" @click="rmDevLink(item.idx)">
-				<v-icon :small="isPhone">
-					delete
-				</v-icon>
-			</v-btn>
-		</template> -->
-	<!-- </v-data-table> -->
+		<v-data-table :headers="headers" :items="devLinks">
+			<template v-slot:[`item.title`]="{ item }">
+				<a :href="item.raw.url" target="_blank">{{ item.raw.title }}</a>
+			</template>
 
-	<v-data-table :headers="headers" :items="devLinks">
-		<template v-slot:[`item.title`]="{ item }">
-			<a :href="item.raw.url" target="_blank">{{ item.raw.title }}</a>
-		</template>
+			<template v-slot:[`item.copy`]="{ item }">
+				<v-btn color="grey darken-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+					<v-icon>mdi-link</v-icon>
+				</v-btn>
+			</template>
+			<template v-slot:[`item.modify`]="{ item }">
+				<v-btn color="green-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+					<v-icon>mdi-pencil</v-icon>
+				</v-btn>
+			</template>
+			<template v-slot:[`item.remove`]="{ item }">
+				<v-btn color="red-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+					<v-icon>mdi-delete</v-icon>
+				</v-btn>
+			</template>
 
-		<template v-slot:[`item.copy`]="{ item }">
-			<v-btn color="grey darken-1" :size="buttonSize" @click="copyLink(item.raw.url)">
-				<v-icon>mdi-link</v-icon>
-			</v-btn>
-		</template>
-		<template v-slot:[`item.modify`]="{ item }">
-			<v-btn color="green-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
-				<v-icon>mdi-pencil</v-icon>
-			</v-btn>
-		</template>
-		<template v-slot:[`item.remove`]="{ item }">
-			<v-btn color="red-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
-				<v-icon>mdi-delete</v-icon>
-			</v-btn>
-		</template>
+			<template v-slot:bottom>
+				<v-pagination v-model="page" :length="totalPageCount" />
+				<!-- <v-pagination v-model="page" :length="totPageCnt" @input="srchDevLink(false)" /> -->
+			</template>
+		</v-data-table>
 
-		<template v-slot:bottom>
-			<v-pagination v-model="page" :length="totalPageCount" />
-		</template>
-	</v-data-table>
-
-	<!-- <v-list lines="one">
-		<v-list-item v-for="item in devLinks" :key="item.title" :title="item.title" subtitle="..."></v-list-item>
-	</v-list> -->
-
-	<!-- <v-table density="compact">
-		<thead>
-			<tr>
-				<th class="text-center">
-					개발 링크
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="item in devLinks" :key="item.id">
-				<td>{{ item.title }}</td>
-			</tr>
-		</tbody>
-	</v-table> -->
-
-	<!-- <v-pagination v-model="page" :length="totPageCnt" @input="srchDevLink(false)" /> -->
-	<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
+		<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
+	</v-container>
 </template>
 
 <script>
@@ -93,27 +62,13 @@ export default {
 			],
 			srchTagAry: [],
 			srchTitle: '',
-			page: 1,
-			isSrching: false,
-			// headers: [
-			// 	{ text: '링크', value: 'title', align: 'center' },
-			// 	{ text: '복사', value: 'copy', align: 'center' },
-			// 	{ text: '수정', value: 'mdfy', align: 'center' },
-			// 	{ text: '삭제', value: 'rm', align: 'center' }
-			// ],
-			// headers: [
-			// 	{ title: '링크', align: 'center', key: 'id' },
-			// ],
-			devLinkList: [],
-
-			isModalOpen: false,
 			devLink: {},
 			tagAry: [],
 			tagSet: null,
 			tagList: [],
 
-
-
+			isModalOpen: false,
+			isSearching: false,
 
 			message: {
 				isOpen: false,
@@ -122,7 +77,7 @@ export default {
 			},
 			headers: [
 				{
-					title: 'title',
+					title: '제목',
 					sortable: false,
 					align: 'center',
 					key: 'title'
@@ -146,11 +101,13 @@ export default {
 					key: 'remove'
 				}
 			],
-			totalCount: 4,
+			page: 1,
+			itemsPerPage: 10,
+			totalCount: 5,
 			devLinks: [
 				{
 					id: 1,
-					title: 'title1',
+					title: 'vue js v-for input type with v-model',
 					url: 'https://www.naver.com'
 				},
 				{
@@ -178,14 +135,10 @@ export default {
 	},
 	computed: {
 		totalPageCount() {
-			return Math.ceil(this.totalCount / 3);
-		},
-		isPhone() {
-			// return this.$store.getters.isPhone;
-			return false;
+			return Math.ceil(this.totalCount / this.itemsPerPage);
 		},
 		buttonSize() {
-			return this.$isMobile() ? 'x-small' : 'default';
+			return this.$isMobile() ? 'x-small' : 'small';
 		}
 	},
 	async mounted() {
@@ -289,6 +242,9 @@ export default {
 		// 		this.$message({ type: 'error', message: '에러가 발생했습니다.' });
 		// 	}
 		// },
+		async search() {
+			console.log('call search');
+		},
 		copyLink(url) {
 			this.$clipboard(url);
 			this.openMessage('복사됐습니다.');
