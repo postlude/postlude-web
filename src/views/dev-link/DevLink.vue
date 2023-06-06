@@ -1,12 +1,17 @@
 <template>
 	<v-container>
 		<v-row>
-			<v-col offset-lg="4" lg="3" offset="1" cols="8">
+			<v-col offset-lg="4" lg="3" offset="1" cols="6">
 				<v-text-field label="검색" variant="outlined" required :clearable="true" v-model="searchWord" @keypress.enter="search" />
 			</v-col>
 			<v-col lg="1" cols="2">
 				<v-btn color="info" class="mt-3" block :disabled="isSearching" @click="search">
 					<v-icon>mdi-magnify</v-icon>
+				</v-btn>
+			</v-col>
+			<v-col offset-lg="3" lg="1" cols="2">
+				<v-btn color="success" class="mt-3" block :disabled="isSearching" @click="add">
+					<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-col>
 		</v-row>
@@ -17,7 +22,7 @@
 			</template>
 
 			<template v-slot:[`item.copy`]="{ item }">
-				<v-btn color="grey darken-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+				<v-btn color="grey darken-1" :size="buttonSize" @click="copyUrl(item.raw.url)">
 					<v-icon>mdi-link</v-icon>
 				</v-btn>
 			</template>
@@ -27,7 +32,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.remove`]="{ item }">
-				<v-btn color="red-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+				<v-btn color="red-lighten-1" :size="buttonSize" @click="remove(item.raw.id)">
 					<v-icon>mdi-delete</v-icon>
 				</v-btn>
 			</template>
@@ -38,7 +43,7 @@
 			</template>
 		</v-data-table>
 
-		<v-dialog v-model="isModalOpen" :width="modalSize" :close-delay="0">
+		<v-dialog v-model="isModalOpen" :width="modalSize" :close-delay="0" :open-delay="0">
 			<dev-link-save :dev-link="devLink" @close="isModalOpen = false"/>
 		</v-dialog>
 
@@ -254,11 +259,18 @@ export default {
 		async search() {
 			console.log('call search');
 		},
-		async modify(devLink) {
+		async remove(devLinkId) {
+			console.log(devLinkId);
+		},
+		add() {
+			this.devLink = null;
+			this.isModalOpen = true;
+		},
+		modify(devLink) {
 			this.devLink = devLink;
 			this.isModalOpen = true;
 		},
-		copyLink(url) {
+		copyUrl(url) {
 			this.$clipboard(url);
 			this.openMessage('복사됐습니다.');
 		},

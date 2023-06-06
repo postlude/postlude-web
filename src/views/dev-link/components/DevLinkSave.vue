@@ -17,8 +17,11 @@
 				<v-btn color="blue-lighten-2" variant="flat" @click="save">
 					<v-icon>mdi-pencil</v-icon>
 				</v-btn>
-				<v-btn color="red-darken-1" variant="flat" @click="resetInput">
+				<v-btn v-if="!devLink?.id" color="red-darken-1" variant="flat" @click="resetInput">
 					<v-icon>mdi-cancel</v-icon>
+				</v-btn>
+				<v-btn v-if="devLink?.id" color="yellow-lighten-1" variant="flat" @click="restoreInput">
+					<v-icon>mdi-minus-thick</v-icon>
 				</v-btn>
 				<v-btn color="grey-darken-1" variant="flat" @click="$emit('close')">
 					<v-icon>mdi-close</v-icon>
@@ -39,6 +42,7 @@ export default {
 	data() {
 		return {
 			newDevLink: {
+				id: null,
 				title: null,
 				url: null,
 				tags: []
@@ -47,11 +51,15 @@ export default {
 		};
 	},
 	mounted() {
-		this.newDevLink.title = this.devLink.title;
-		this.newDevLink.url = this.devLink.url;
-		this.newDevLink.tags = this.devLink.tags;
+		this.newDevLink.id = this.devLink?.id || null;
+		this.newDevLink.title = this.devLink?.title;
+		this.newDevLink.url = this.devLink?.url;
+		this.newDevLink.tags = this.devLink?.tags ? this.devLink.tags.slice(0) : [];
 	},
 	methods: {
+		async save() {
+
+		},
 		addTag() {
 			if(!this.newTag) {
 				return;
@@ -63,15 +71,19 @@ export default {
 		removeTag(tagIndex) {
 			this.newDevLink.tags.splice(tagIndex, 1);
 		},
-		async save() {
-
-		},
 		resetInput() {
+			this.newTag = null;
 			this.newDevLink = {
 				title: null,
 				url: null,
 				tags: []
 			};
+		},
+		restoreInput() {
+			this.newTag = null;
+			this.newDevLink.title = this.devLink.title;
+			this.newDevLink.url = this.devLink.url;
+			this.newDevLink.tags = this.devLink.tags.slice(0);
 		}
 		// async mdfyDevLink(arg) {
 		// 	try {
