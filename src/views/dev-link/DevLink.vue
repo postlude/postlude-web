@@ -2,7 +2,7 @@
 	<v-container>
 		<v-row>
 			<v-col offset-lg="4" lg="3" offset="1" cols="8">
-				<v-text-field label="검색" variant="outlined" required :clearable="true" @keypress.enter="search" />
+				<v-text-field label="검색" variant="outlined" required :clearable="true" v-model="searchWord" @keypress.enter="search" />
 			</v-col>
 			<v-col lg="1" cols="2">
 				<v-btn color="info" class="mt-3" block :disabled="isSearching" @click="search">
@@ -22,7 +22,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.modify`]="{ item }">
-				<v-btn color="green-lighten-1" :size="buttonSize" @click="copyLink(item.raw.url)">
+				<v-btn color="green-lighten-1" :size="buttonSize" @click="modify(item.raw)">
 					<v-icon>mdi-pencil</v-icon>
 				</v-btn>
 			</template>
@@ -38,20 +38,23 @@
 			</template>
 		</v-data-table>
 
+		<v-dialog v-model="isModalOpen" :width="modalSize">
+			<dev-link-save :dev-link="devLink" />
+		</v-dialog>
+
 		<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
 	</v-container>
 </template>
 
 <script>
-// import DevLinkModal from '@/components/dev-link/DevLinkModal.vue';
-// import { getDevLinkList, rmDevLink, getDevLink } from '@/api/devLink';
-// import { getTagList } from '@/api/tag';
+import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
 
 export default {
 	name: 'DevLink',
 	components: {
-		Message
+		Message,
+		DevLinkSave
 	},
 	data() {
 		return {
@@ -62,12 +65,13 @@ export default {
 			],
 			srchTagAry: [],
 			srchTitle: '',
-			devLink: {},
 			tagAry: [],
 			tagSet: null,
 			tagList: [],
 
 			isModalOpen: false,
+
+			searchWord: '',
 			isSearching: false,
 
 			message: {
@@ -104,11 +108,13 @@ export default {
 			page: 1,
 			itemsPerPage: 10,
 			totalCount: 5,
+			devLink: null,
 			devLinks: [
 				{
 					id: 1,
 					title: 'vue js v-for input type with v-model',
-					url: 'https://www.naver.com'
+					url: 'https://www.naver.com',
+					tags: ['1', '2', '3']
 				},
 				{
 					id: 2,
@@ -139,6 +145,9 @@ export default {
 		},
 		buttonSize() {
 			return this.$isMobile() ? 'x-small' : 'small';
+		},
+		modalSize() {
+			return this.$isMobile() ? '100%' : '50%';
 		}
 	},
 	async mounted() {
@@ -244,6 +253,10 @@ export default {
 		// },
 		async search() {
 			console.log('call search');
+		},
+		async modify(devLink) {
+			this.devLink = devLink;
+			this.isModalOpen = true;
 		},
 		copyLink(url) {
 			this.$clipboard(url);
