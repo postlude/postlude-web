@@ -38,8 +38,8 @@
 			</template>
 		</v-data-table>
 
-		<v-dialog v-model="isModalOpen" :width="modalSize">
-			<dev-link-save :dev-link="devLink" />
+		<v-dialog v-model="isModalOpen" :width="modalSize" :close-delay="0">
+			<dev-link-save :dev-link="devLink" @close="isModalOpen = false"/>
 		</v-dialog>
 
 		<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />

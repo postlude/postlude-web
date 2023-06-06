@@ -20,7 +20,7 @@
 				<v-btn color="red-darken-1" variant="flat" @click="resetInput">
 					<v-icon>mdi-cancel</v-icon>
 				</v-btn>
-				<v-btn color="grey-darken-1" variant="flat" @click="resetInput">
+				<v-btn color="grey-darken-1" variant="flat" @click="$emit('close')">
 					<v-icon>mdi-close</v-icon>
 				</v-btn>
 			</v-card-actions>
