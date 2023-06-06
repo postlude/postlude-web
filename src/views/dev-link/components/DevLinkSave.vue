@@ -61,7 +61,12 @@ export default {
 
 		},
 		addTag() {
-			if(!this.newTag) {
+			if (!this.newTag) {
+				return;
+			}
+
+			if (this.newDevLink.tags.includes(this.newTag)) {
+				this.newTag = null;
 				return;
 			}
 
