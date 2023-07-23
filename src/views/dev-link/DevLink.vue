@@ -182,6 +182,8 @@ export default {
 		// },
 		async search() {
 			this.isSearching = true;
+			this.message.isOpen = false;
+			this.confirm.isOpen = false;
 
 			const { data } = await searchDevLinks({
 				page: this.page,
@@ -193,8 +195,6 @@ export default {
 			this.devLinks = devLinks;
 
 			this.isSearching = false;
-			this.message.isOpen = false;
-			this.confirm.isOpen = false;
 		},
 		openRemoveConfirm(devLinkId) {
 			this.openConfirm('정말로 삭제하시겠습니까?');
