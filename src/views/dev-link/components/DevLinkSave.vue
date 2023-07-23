@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { addDevLink, setDevLink } from '@/util/api';
+
 export default {
 	name: 'DevLinkSave',
 	props: {
@@ -58,7 +60,13 @@ export default {
 	},
 	methods: {
 		async save() {
+			if (this.devLink?.id) {
+				await setDevLink(this.devLink.id, this.newDevLink);
+			} else {
+				await addDevLink(this.newDevLink);
+			}
 
+			this.$emit('close');
 		},
 		addTag() {
 			if (!this.newTag) {
