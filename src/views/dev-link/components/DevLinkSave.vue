@@ -98,21 +98,6 @@ export default {
 			this.newDevLink.url = this.devLink.url;
 			this.newDevLink.tags = this.devLink.tags.slice(0);
 		}
-		// async mdfyDevLink(arg) {
-		// 	try {
-		// 		const { code } = await mdfyDevLink(arg);
-
-		// 		if (code === RSPNS.SUCCES) {
-		// 			this.$message({ type: 'success', message: '수정 성공' });
-		// 			this.$emit('close');
-		// 		} else {
-		// 			throw new Error(code);
-		// 		}
-		// 	} catch (err) {
-		// 		console.error(err);
-		// 		this.$message({ type: 'error', message: '에러가 발생했습니다.' });
-		// 	}
-		// }
 	}
 };
 </script>
