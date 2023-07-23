@@ -54,6 +54,7 @@
 <script>
 import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
+import { searchDevLinks } from '@/util/api';
 
 export default {
 	name: 'DevLink',
@@ -114,34 +115,7 @@ export default {
 			itemsPerPage: 10,
 			totalCount: 5,
 			devLink: null,
-			devLinks: [
-				{
-					id: 1,
-					title: 'vue js v-for input type with v-model',
-					url: 'https://www.naver.com',
-					tags: ['1', '2', '3']
-				},
-				{
-					id: 2,
-					title: 'title2',
-					url: 'https://www.naver.com'
-				},
-				{
-					id: 3,
-					title: 'title3',
-					url: 'https://www.naver.com'
-				},
-				{
-					id: 4,
-					title: 'title4',
-					url: 'https://www.naver.com'
-				},
-				{
-					id: 5,
-					title: 'title5',
-					url: 'https://www.naver.com'
-				}
-			]
+			devLinks: []
 		};
 	},
 	computed: {
@@ -257,7 +231,14 @@ export default {
 		// 	}
 		// },
 		async search() {
-			console.log('call search');
+			const { data } = await searchDevLinks({
+				page: this.page,
+				tagName: this.searchWord
+			});
+
+			const { totalCount, devLinks } = data;
+			this.totalCount = totalCount;
+			this.devLinks = devLinks;
 		},
 		async remove(devLinkId) {
 			console.log(devLinkId);
