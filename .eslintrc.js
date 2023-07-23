@@ -11,7 +11,11 @@ module.exports = {
 		'vue/multi-word-component-names': 'off',
 		// indent: ['error', 4, { SwitchCase: 1, ignoredNodes: ['TemplateLiteral'] }],
 		indent: ['error', 'tab'],
-		'space-before-function-paren': ['error', 'never'],
+		'space-before-function-paren': ['error', {
+			'anonymous': 'always',
+			'named': 'never',
+			'asyncArrow': 'always'
+		}],
 		'comma-dangle': ['error', 'never'],
 		semi: ['error', 'always'],
 		'no-trailing-spaces': 'error'
