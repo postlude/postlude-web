@@ -17,7 +17,7 @@ export const searchDevLinks = (params) => axios.get(`${baseUrl}/dev-links`, { pa
 /**
  * @description 개발 링크 삭제
  */
-// export const rmDevLink = idx => del({ url: `/dev-link/${idx}` })();
+export const removeDevLink = (id) => axios.delete(`${baseUrl}/dev-links/${id}`);
 
 /**
  * @description 개발 링크 1개 로드

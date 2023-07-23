@@ -54,7 +54,7 @@
 <script>
 import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
-import { searchDevLinks } from '@/util/api';
+import { searchDevLinks, removeDevLink } from '@/util/api';
 
 export default {
 	name: 'DevLink',
@@ -241,7 +241,7 @@ export default {
 			this.devLinks = devLinks;
 		},
 		async remove(devLinkId) {
-			console.log(devLinkId);
+			await removeDevLink(devLinkId);
 		},
 		add() {
 			this.devLink = null;
