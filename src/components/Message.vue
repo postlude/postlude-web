@@ -21,10 +21,8 @@ export default {
 		}
 	},
 	watch: {
-		isOpen: function() {
-			if (this.isOpen) {
-				this.isOpenSnackbar = true;
-			}
+		isOpen: function () {
+			this.isOpenSnackbar = this.isOpen;
 		}
 	},
 	data() {
