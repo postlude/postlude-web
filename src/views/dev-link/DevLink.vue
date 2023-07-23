@@ -10,7 +10,7 @@
 				</v-btn>
 			</v-col>
 			<v-col offset-lg="3" lg="1" cols="2">
-				<v-btn color="success" class="mt-3" block :disabled="isSearching" @click="add">
+				<v-btn color="success" class="mt-3" block :disabled="isSearching" @click="openAddModal">
 					<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-col>
@@ -27,7 +27,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.modify`]="{ item }">
-				<v-btn color="green-lighten-1" :size="buttonSize" @click="modify(item.raw)">
+				<v-btn color="green-lighten-1" :size="buttonSize" @click="openModifyModal(item.raw)">
 					<v-icon>mdi-pencil</v-icon>
 				</v-btn>
 			</template>
@@ -207,11 +207,11 @@ export default {
 
 			await this.search();
 		},
-		add() {
+		openAddModal() {
 			this.devLink = null;
 			this.isModalOpen = true;
 		},
-		modify(devLink) {
+		openModifyModal(devLink) {
 			this.devLink = devLink;
 			this.isModalOpen = true;
 		},
