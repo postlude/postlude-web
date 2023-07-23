@@ -66,7 +66,7 @@ export default {
 				await addDevLink(this.newDevLink);
 			}
 
-			this.$emit('close');
+			this.$emit('save');
 		},
 		addTag() {
 			if (!this.newTag) {

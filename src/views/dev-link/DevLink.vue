@@ -44,7 +44,7 @@
 		</v-data-table>
 
 		<v-dialog v-model="isModalOpen" :width="modalSize" :close-delay="0" :open-delay="0">
-			<dev-link-save :dev-link="devLink" @close="isModalOpen = false"/>
+			<dev-link-save :dev-link="devLink" @close="isModalOpen = false" @save="completeSave"/>
 		</v-dialog>
 
 		<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
@@ -182,7 +182,6 @@ export default {
 		// },
 		async search() {
 			this.isSearching = true;
-			this.message.isOpen = false;
 			this.confirm.isOpen = false;
 
 			const { data } = await searchDevLinks({
@@ -215,6 +214,11 @@ export default {
 		modify(devLink) {
 			this.devLink = devLink;
 			this.isModalOpen = true;
+		},
+		async completeSave() {
+			this.isModalOpen = false;
+			this.openMessage('저장됐습니다.');
+			await this.search();
 		},
 		copyUrl(url) {
 			this.$clipboard(url);
