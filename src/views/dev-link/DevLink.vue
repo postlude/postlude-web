@@ -32,7 +32,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.remove`]="{ item }">
-				<v-btn color="red-lighten-1" :size="buttonSize" @click="openRemoveConfirm(item.raw.id)">
+				<v-btn color="red-lighten-1" :size="buttonSize" @click="confirmRemoval(item.raw.id)">
 					<v-icon>mdi-delete</v-icon>
 				</v-btn>
 			</template>
@@ -195,7 +195,7 @@ export default {
 
 			this.isSearching = false;
 		},
-		openRemoveConfirm(devLinkId) {
+		confirmRemoval(devLinkId) {
 			this.openConfirm('정말로 삭제하시겠습니까?');
 			this.removeId = devLinkId;
 		},
