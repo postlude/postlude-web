@@ -32,7 +32,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.remove`]="{ item }">
-				<v-btn color="red-lighten-1" :size="buttonSize" @click="remove(item.raw.id)">
+				<v-btn color="red-lighten-1" :size="buttonSize" @click="openRemoveConfirm(item.raw.id)">
 					<v-icon>mdi-delete</v-icon>
 				</v-btn>
 			</template>
@@ -48,34 +48,28 @@
 		</v-dialog>
 
 		<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
+		<confirm :is-open="confirm.isOpen" :text="confirm.text" :color="confirm.color" @close="confirm.isOpen = false" @confirm="remove" />
 	</v-container>
 </template>
 
 <script>
 import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
+import Confirm from '@/components/Confirm.vue';
 import { searchDevLinks, removeDevLink } from '@/util/api';
 
 export default {
 	name: 'DevLink',
 	components: {
 		Message,
+		Confirm,
 		DevLinkSave
 	},
 	data() {
 		return {
-			srchTy: 1,
-			srchTyList: [
-				{ text: '태그', value: 1 },
-				{ text: '제목', value: 2 }
-			],
 			srchTagAry: [],
 			srchTitle: '',
-			tagAry: [],
-			tagSet: null,
 			tagList: [],
-
-			isModalOpen: false,
 
 			searchWord: '',
 			isSearching: false,
@@ -85,6 +79,13 @@ export default {
 				text: '',
 				color: undefined
 			},
+			confirm: {
+				isOpen: false,
+				text: '',
+				color: undefined,
+				data: {}
+			},
+
 			headers: [
 				{
 					title: '제목',
@@ -113,9 +114,13 @@ export default {
 			],
 			page: 1,
 			itemsPerPage: 10,
-			totalCount: 5,
+			totalCount: 0,
+			devLinks: [],
+
+			isModalOpen: false,
 			devLink: null,
-			devLinks: []
+
+			removeId: null
 		};
 	},
 	computed: {
@@ -142,19 +147,6 @@ export default {
 		// }
 	},
 	methods: {
-		// chckParam() {
-		// 	if (this.srchTy === 1) { // 태그 검색
-		// 		if (this.srchTagAry.length) {
-		// 			return true;
-		// 		} else {
-		// 			return false;
-		// 		}
-		// 	} else if (this.srchTitle.length > 2) { // 제목 검색
-		// 		return true;
-		// 	} else {
-		// 		return false;
-		// 	}
-		// }
 		/**
 		 * @description 개발 문서 검색
 		 */
@@ -213,23 +205,6 @@ export default {
 		// 		}
 		// 	}
 		// },
-		// async openModal(idx) {
-		// 	try {
-		// 		const { code, devLink, tagAry } = await getDevLink(idx);
-
-		// 		if (code === RSPNS.SUCCES) {
-		// 			this.devLink = devLink;
-		// 			this.tagAry = tagAry;
-		// 			this.tagSet = new Set(tagAry);
-		// 			this.isModalOpen = true;
-		// 		} else {
-		// 			throw new Error(code);
-		// 		}
-		// 	} catch (err) {
-		// 		console.error(err);
-		// 		this.$message({ type: 'error', message: '에러가 발생했습니다.' });
-		// 	}
-		// },
 		async search() {
 			const { data } = await searchDevLinks({
 				page: this.page,
@@ -239,9 +214,21 @@ export default {
 			const { totalCount, devLinks } = data;
 			this.totalCount = totalCount;
 			this.devLinks = devLinks;
+
+			this.message.isOpen = false;
+			this.confirm.isOpen = false;
 		},
-		async remove(devLinkId) {
-			await removeDevLink(devLinkId);
+		openRemoveConfirm(devLinkId) {
+			this.openConfirm('정말로 삭제하시겠습니까?');
+			this.removeId = devLinkId;
+		},
+		async remove() {
+			await removeDevLink(this.removeId);
+
+			this.confirm.isOpen = false;
+			this.openMessage('삭제됐습니다.');
+
+			await this.search();
 		},
 		add() {
 			this.devLink = null;
@@ -259,6 +246,11 @@ export default {
 			this.message.text = text;
 			this.message.color = color || undefined;
 			this.message.isOpen = true;
+		},
+		openConfirm(text, color) {
+			this.confirm.text = text;
+			this.confirm.color = color || undefined;
+			this.confirm.isOpen = true;
 		}
 	}
 };
