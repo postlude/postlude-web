@@ -67,10 +67,6 @@ export default {
 	},
 	data() {
 		return {
-			srchTagAry: [],
-			srchTitle: '',
-			tagList: [],
-
 			searchWord: '',
 			isSearching: false,
 
@@ -184,28 +180,9 @@ export default {
 		// 		this.isSrching = false;
 		// 	}
 		// },
-		// async rmDevLink(idx) {
-		// 	try {
-		// 		await this.$confirm('정말로 삭제하시겠습니까?', '링크 삭제', {
-		// 			confirmButtonText: '삭제',
-		// 			type: 'warning'
-		// 		});
-
-		// 		const { code } = await rmDevLink(idx);
-
-		// 		if (code === RSPNS.SUCCES) {
-		// 			this.$message({ type: 'success', message: '삭제되었습니다.' });
-		// 		} else {
-		// 			throw new Error(code);
-		// 		}
-		// 	} catch (err) {
-		// 		if (err !== 'cancel') {
-		// 			console.error(err);
-		// 			this.$message({ type: 'error', message: '에러가 발생했습니다.' });
-		// 		}
-		// 	}
-		// },
 		async search() {
+			this.isSearching = true;
+
 			const { data } = await searchDevLinks({
 				page: this.page,
 				tagName: this.searchWord
@@ -215,6 +192,7 @@ export default {
 			this.totalCount = totalCount;
 			this.devLinks = devLinks;
 
+			this.isSearching = false;
 			this.message.isOpen = false;
 			this.confirm.isOpen = false;
 		},
