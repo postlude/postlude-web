@@ -1,45 +1,35 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-
-Vue.use(VueRouter);
+// Composables
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-    {
-        path: '/',
-        name: 'Profile',
-        component: () => import('../views/Profile.vue')
-    },
-    {
-        path: '/sgnn',
-        name: 'Sgnn',
-        component: () => import('../views/Sgnn.vue')
-    },
-    {
-        path: '/dev-link/list',
-        name: 'DevLinkList',
-        component: () => import('../views/DevLinkList.vue')
-    },
-    {
-        path: '/dev-link/add',
-        name: 'DevLinkAdd',
-        component: () => import('../views/DevLinkAdd.vue')
-    },
-    {
-        path: '/exec-stmt/list',
-        name: 'ExecStmtList',
-        component: () => import('../views/ExecStmtList.vue')
-    },
-    {
-        path: '/exec-stmt/add',
-        name: 'ExecStmtAdd',
-        component: () => import('../views/ExecStmtAdd.vue')
-    }
+	// {
+	// 	path: "/",
+	// 	component: () => import("@/layouts/default/Default.vue"),
+	// 	children: [
+	// 		{
+	// 			path: "",
+	// 			name: "Home",
+	// 			// route level code-splitting
+	// 			// this generates a separate chunk (about.[hash].js) for this route
+	// 			// which is lazy-loaded when the route is visited.
+	// 			component: () =>
+	// 				import(/* webpackChunkName: "home" */ "@/views/Home.vue")
+	// 		}
+	// 	]
+	// }
+	{
+		path: "/",
+		component: () => import("@/views/home/Home.vue")
+	},
+	{
+		path: "/dev-link",
+		component: () => import("@/views/dev-link/DevLink.vue")
+	}
 ];
 
-const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
+const router = createRouter({
+	history: createWebHistory(process.env.BASE_URL),
+	routes
 });
 
 export default router;
