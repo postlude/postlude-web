@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const isProd = process.env.NODE_ENV === 'production';
-const baseUrl = isProd ? 'https://postlude.me/api' : 'http://localhost:3000';
+const baseUrl = isProd ? 'http://api.postlude.me' : 'http://localhost:3000';
 
 
 /**
