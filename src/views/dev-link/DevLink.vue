@@ -38,8 +38,7 @@
 			</template>
 
 			<template v-slot:bottom>
-				<v-pagination v-model="page" :length="totalPageCount" />
-				<!-- <v-pagination v-model="page" :length="totPageCnt" @input="srchDevLink(false)" /> -->
+				<v-pagination v-model="page" :length="totalPageCount" @update:modelValue="search" />
 			</template>
 		</v-data-table>
 
