@@ -23,3 +23,8 @@ export const removeDevLink = (id) => axios.delete(`${baseUrl}/dev-links/${id}`);
  * @description 개발 링크 수정
  */
 export const setDevLink = (id, devLink) => axios.put(`${baseUrl}/dev-links/${id}`, devLink);
+
+/**
+ * @description 로그인
+ */
+export const signIn = (user) => axios.post(`${baseUrl}/users/sign-in`, user);
