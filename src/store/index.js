@@ -14,6 +14,9 @@ export default createStore({
 		isSignIn: state => state.isSignIn
 	},
 	mutations: {
+		setSignIn(state, isSignIn) {
+			state.isSignIn = isSignIn;
+		},
 		setAccessToken(state, token) {
 			const { name, expires } = accessToken;
 			Cookie.set(name, token, { expires });
