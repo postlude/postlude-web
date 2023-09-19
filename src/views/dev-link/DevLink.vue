@@ -127,6 +127,9 @@ export default {
 		},
 		modalSize() {
 			return this.$isMobile() ? '100%' : '50%';
+		},
+		isSignIn() {
+			return this.$store.getters.isSignIn;
 		}
 	},
 	async mounted() {
@@ -180,6 +183,10 @@ export default {
 		// 	}
 		// },
 		async search() {
+			if (!this.searchWord) {
+				return;
+			}
+
 			this.isSearching = true;
 			this.confirm.isOpen = false;
 
@@ -195,6 +202,11 @@ export default {
 			this.isSearching = false;
 		},
 		confirmRemoval(devLinkId) {
+			if(!this.isSignIn) {
+				this.openMessage('로그인이 필요합니다.', 'warning');
+				return;
+			}
+
 			this.openConfirm('정말로 삭제하시겠습니까?');
 			this.removeId = devLinkId;
 		},
@@ -207,17 +219,26 @@ export default {
 			await this.search();
 		},
 		openAddModal() {
+			if(!this.isSignIn) {
+				this.openMessage('로그인이 필요합니다.', 'warning');
+				return;
+			}
+
 			this.devLink = null;
 			this.isModalOpen = true;
 		},
 		openModifyModal(devLink) {
+			if(!this.isSignIn) {
+				this.openMessage('로그인이 필요합니다.', 'warning');
+				return;
+			}
+
 			this.devLink = devLink;
 			this.isModalOpen = true;
 		},
-		async completeSave() {
+		completeSave() {
 			this.isModalOpen = false;
 			this.openMessage('저장됐습니다.');
-			await this.search();
 		},
 		copyUrl(url) {
 			this.$clipboard(url);
