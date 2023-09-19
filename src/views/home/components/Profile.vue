@@ -1,5 +1,4 @@
 <template>
-	<!-- <v-card class="mx-auto my-12" max-width="344"> -->
 	<v-card class="w-100" max-width="344">
 		<v-img src="@/assets/supersonic.jpg" />
 

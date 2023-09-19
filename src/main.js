@@ -1,7 +1,7 @@
 /**
  * main.js
  *
- * Bootstraps Vuetify and other plugins then mounts the App`
+ * Bootstraps Vuetify and other plugins then mounts the App
  */
 
 // Components
@@ -15,12 +15,16 @@ import { registerPlugins } from "@/plugins";
 
 import Clipboard from 'v-clipboard';
 import VueMobileDetection from "vue-mobile-detection";
+import store from './store';
 
 const app = createApp(App);
+
+// app.config.globalProperties.$store = store;
 
 registerPlugins(app);
 
 app.use(Clipboard);
 app.use(VueMobileDetection);
+app.use(store);
 
 app.mount("#app");
