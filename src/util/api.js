@@ -5,7 +5,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 class Api {
 	constructor() {
-		this.baseUrl = isProd ? 'https://postlude.me/api' : 'http://localhost:3000';
+		this.baseUrl = isProd ? 'https://api.postlude.me' : 'http://localhost:3000';
 	}
 
 	_getHeaders() {
