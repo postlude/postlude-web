@@ -6,20 +6,11 @@ const isProd = process.env.NODE_ENV === 'production';
 class Api {
 	constructor() {
 		this.baseUrl = isProd ? 'http://api.postlude.me' : 'http://localhost:3000';
-		this.apiToken = 'endtheory';
 	}
 
 	_getHeaders() {
-		const headers = {
-			'postludetoken': this.apiToken
-		};
-
 		const accessToken = Cookie.get('access-token');
-		if (accessToken) {
-			headers.Authorization = `Bearer ${accessToken}`;
-		}
-
-		return headers;
+		return accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined;
 	}
 
 	async get(url, params) {
