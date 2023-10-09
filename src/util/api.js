@@ -11,7 +11,7 @@ class Api {
 
 	_getHeaders() {
 		const headers = {
-			'postlude-api-token': this.apiToken
+			'postludetoken': this.apiToken
 		};
 
 		const accessToken = Cookie.get('access-token');
