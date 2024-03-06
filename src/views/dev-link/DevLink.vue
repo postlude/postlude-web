@@ -1,20 +1,35 @@
 <template>
 	<v-container>
 		<v-row>
-			<v-col offset-lg="4" lg="3" offset="1" cols="6">
+			<v-col offset-xl="3" xl="1" offset-lg="2" lg="2" cols="4">
+				<v-select v-model="searchType" :items="searchTypes" item-title="name" item-value="value" />
+			</v-col>
+			<v-col xl="4" lg="4" :cols="$isMobile() ? 6 : 5">
 				<v-text-field label="검색" variant="outlined" required :clearable="true" v-model="searchWord" @keypress.enter="search" />
 			</v-col>
-			<v-col lg="1" cols="2">
+			<v-col :cols="$isMobile() ? 2 : 1">
 				<v-btn color="info" class="mt-3" block :disabled="isSearching" @click="search">
 					<v-icon>mdi-magnify</v-icon>
 				</v-btn>
 			</v-col>
-			<v-col offset-lg="3" lg="1" cols="2">
+			<v-col v-if="!$isMobile()" cols="1">
 				<v-btn color="success" class="mt-3" block :disabled="isSearching" @click="openAddModal">
 					<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-col>
 		</v-row>
+
+		<!-- mobile floating button -->
+		<v-btn v-if="$isMobile()"
+			icon="mdi-plus"
+			color="success"
+			position="fixed"
+			location="bottom right"
+			class="mr-3 mb-3"
+			elevation="24"
+			:disabled="isSearching"
+			@click="openAddModal"
+		/>
 
 		<v-data-table :headers="headers" :items="devLinks">
 			<template v-slot:[`item.title`]="{ item }">
@@ -66,6 +81,11 @@ export default {
 	},
 	data() {
 		return {
+			searchType: 1,
+			searchTypes: [
+				{ name: '태그', value: 1 },
+				{ name: '제목', value: 2 }
+			],
 			searchWord: '',
 			isSearching: false,
 
