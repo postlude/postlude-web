@@ -70,7 +70,7 @@
 import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
 import Confirm from '@/components/Confirm.vue';
-import { searchDevLinks, removeDevLink } from '@/util/api';
+import { searchDevLinks, removeDevLink, getAllDevLinkTags } from '@/util/api';
 
 export default {
 	name: 'DevLink',
@@ -88,6 +88,8 @@ export default {
 			],
 			searchWord: '',
 			isSearching: false,
+
+			tags: [],
 
 			message: {
 				isOpen: false,
@@ -153,16 +155,8 @@ export default {
 		}
 	},
 	async mounted() {
-		// try {
-		// 	const { code, tagList } = await getTagList(TAG_TY.DEV_LINK);
-		// 	if (code === RSPNS.SUCCES) {
-		// 		this.tagList = tagList.map(({ tag }) => tag);
-		// 	} else {
-		// 		throw new Error(code);
-		// 	}
-		// } catch (err) {
-		// 	console.error(err);
-		// }
+		const { data } = await getAllDevLinkTags();
+		this.tags = data.map(({ name }) => name);
 	},
 	methods: {
 		/**
