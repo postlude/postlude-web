@@ -2,10 +2,28 @@
 	<v-container>
 		<v-row>
 			<v-col offset-xl="3" xl="1" offset-lg="2" lg="2" cols="4">
-				<v-select v-model="searchType" :items="searchTypes" item-title="name" item-value="value" />
+				<v-select v-model="searchType" :items="searchTypes" item-title="name" item-value="value" @update:model-value="clearSearchInput" />
 			</v-col>
 			<v-col xl="4" lg="4" :cols="$isMobile() ? 6 : 5">
-				<v-text-field label="검색" variant="outlined" required :clearable="true" v-model="searchWord" @keypress.enter="search" />
+				<v-autocomplete v-show="searchType === 1"
+					ref="autocomplete"
+					v-model="tagNames"
+					:items="allTags"
+					v-model:search="autoCompleteInput"
+					@update:modelValue="clearAutoComplete"
+					label="검색"
+					variant="outlined"
+					required
+					:clearable="true"
+					:multiple="true"
+				>
+					<template v-slot:selection="tag">
+						<v-chip v-bind="tag">
+							{{ tag.item.raw }}
+						</v-chip>
+					</template>
+				</v-autocomplete>
+				<v-text-field v-show="searchType === 2" v-model="title" @keypress.enter="search" label="검색" variant="outlined" required :clearable="true" />
 			</v-col>
 			<v-col :cols="$isMobile() ? 2 : 1">
 				<v-btn color="info" class="mt-3" block :disabled="isSearching" @click="search">
@@ -86,10 +104,11 @@ export default {
 				{ name: '태그', value: 1 },
 				{ name: '제목', value: 2 }
 			],
-			searchWord: '',
+			autoCompleteInput: '',
+			allTags: [],
+			title: '',
+			tagNames: [],
 			isSearching: false,
-
-			tags: [],
 
 			message: {
 				isOpen: false,
@@ -156,48 +175,11 @@ export default {
 	},
 	async mounted() {
 		const { data } = await getAllDevLinkTags();
-		this.tags = data.map(({ name }) => name);
+		this.allTags = data.map(({ name }) => name);
 	},
 	methods: {
-		/**
-		 * @description 개발 문서 검색
-		 */
-		// async srchDevLink(isSrch) {
-		// 	try {
-		// 		const isValidParam = this.chckParam();
-
-		// 		if (isValidParam) {
-		// 			this.isSrching = true;
-
-		// 			if (isSrch) {
-		// 				this.page = 1;
-		// 			}
-
-		// 			const { code, totCnt, devLinkList } = await getDevLinkList({
-		// 				ty: this.srchTy,
-		// 				page: this.page,
-		// 				srchTitle: this.srchTitle,
-		// 				srchTagAry: JSON.stringify(this.srchTagAry)
-		// 			});
-
-		// 			if (code === RSPNS.SUCCES) {
-		// 				this.totalCount = totCnt;
-		// 				this.devLinkList = devLinkList;
-		// 			} else {
-		// 				throw new Error(code);
-		// 			}
-		// 		} else {
-		// 			this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
-		// 		}
-		// 	} catch (err) {
-		// 		console.error(err);
-		// 		this.$message({ type: 'error', message: '에러가 발생했습니다.' });
-		// 	} finally {
-		// 		this.isSrching = false;
-		// 	}
-		// },
 		async search() {
-			if (!this.searchWord) {
+			if (!this.title && !this.tagNames.length) {
 				return;
 			}
 
@@ -205,8 +187,10 @@ export default {
 			this.confirm.isOpen = false;
 
 			const { data } = await searchDevLinks({
+				searchType: this.searchType,
 				page: this.page,
-				tagName: this.searchWord
+				title: this.title || undefined,
+				tagNames: this.tagNames.length ? this.tagNames : undefined
 			});
 
 			const { totalCount, devLinks } = data;
@@ -267,6 +251,17 @@ export default {
 			this.confirm.text = text;
 			this.confirm.color = color || undefined;
 			this.confirm.isOpen = true;
+		},
+		clearAutoComplete() {
+			this.autoCompleteInput = '';
+			this.$refs.autocomplete.focus();
+		},
+		clearSearchInput() {
+			if (this.searchType === 1) {
+				this.title = '';
+			} else {
+				this.tagNames = [];
+			}
 		}
 	}
 };
