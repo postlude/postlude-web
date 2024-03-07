@@ -15,7 +15,15 @@ class Api {
 
 	async get(url, params) {
 		const headers = this._getHeaders();
-		return axios.get(`${this.baseUrl}${url}`, { params, headers });
+		return axios.get(`${this.baseUrl}${url}`, {
+			params,
+			headers,
+			paramsSerializer: {
+				// 파라미터에 배열 포함시 대괄호 포함되지 않음
+				// https://stackoverflow.com/questions/49944387/how-to-correctly-use-axios-params-with-arrays
+				indexes: null
+			}
+		});
 	}
 
 	async post(url, data) {
