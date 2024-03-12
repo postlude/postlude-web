@@ -197,6 +197,10 @@ export default {
 			this.totalCount = totalCount;
 			this.devLinks = devLinks;
 
+			if (!totalCount) {
+				this.openMessage('검색 결과가 없습니다.', 'warning');
+			}
+
 			this.isSearching = false;
 		},
 		confirmRemoval(devLinkId) {
@@ -257,9 +261,9 @@ export default {
 			this.$refs.autocomplete.focus();
 		},
 		clearSearchInput() {
-			if (this.searchType === 1) {
+			if (this.searchType === 1) { // tag
 				this.title = '';
-			} else {
+			} else { // title
 				this.tagNames = [];
 			}
 		}
