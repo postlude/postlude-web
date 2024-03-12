@@ -1,20 +1,53 @@
 <template>
 	<v-container>
 		<v-row>
-			<v-col offset-lg="4" lg="3" offset="1" cols="6">
-				<v-text-field label="검색" variant="outlined" required :clearable="true" v-model="searchWord" @keypress.enter="search" />
+			<v-col offset-xl="3" xl="1" offset-lg="2" lg="2" cols="4">
+				<v-select v-model="searchType" :items="searchTypes" item-title="name" item-value="value" @update:model-value="clearSearchInput" />
 			</v-col>
-			<v-col lg="1" cols="2">
+			<v-col xl="4" lg="4" :cols="$isMobile() ? 6 : 5">
+				<v-autocomplete v-show="searchType === 1"
+					ref="autocomplete"
+					v-model="tagNames"
+					:items="allTags"
+					v-model:search="autoCompleteInput"
+					@update:modelValue="clearAutoComplete"
+					label="검색"
+					variant="outlined"
+					required
+					:clearable="true"
+					:multiple="true"
+				>
+					<template v-slot:selection="tag">
+						<v-chip v-bind="tag">
+							{{ tag.item.raw }}
+						</v-chip>
+					</template>
+				</v-autocomplete>
+				<v-text-field v-show="searchType === 2" v-model="title" @keypress.enter="search" label="검색" variant="outlined" required :clearable="true" />
+			</v-col>
+			<v-col :cols="$isMobile() ? 2 : 1">
 				<v-btn color="info" class="mt-3" block :disabled="isSearching" @click="search">
 					<v-icon>mdi-magnify</v-icon>
 				</v-btn>
 			</v-col>
-			<v-col offset-lg="3" lg="1" cols="2">
+			<v-col v-if="!$isMobile()" cols="1">
 				<v-btn color="success" class="mt-3" block :disabled="isSearching" @click="openAddModal">
 					<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-col>
 		</v-row>
+
+		<!-- mobile floating button -->
+		<v-btn v-if="$isMobile()"
+			icon="mdi-plus"
+			color="success"
+			position="fixed"
+			location="bottom right"
+			class="mr-3 mb-3"
+			elevation="24"
+			:disabled="isSearching"
+			@click="openAddModal"
+		/>
 
 		<v-data-table :headers="headers" :items="devLinks">
 			<template v-slot:[`item.title`]="{ item }">
@@ -27,7 +60,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.modify`]="{ item }">
-				<v-btn color="green-lighten-1" :size="buttonSize" @click="openModifyModal(item.raw)">
+				<v-btn color="green-lighten-1" :size="buttonSize" @click="openModifyModal(item.raw.id)">
 					<v-icon>mdi-pencil</v-icon>
 				</v-btn>
 			</template>
@@ -55,7 +88,7 @@
 import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
 import Confirm from '@/components/Confirm.vue';
-import { searchDevLinks, removeDevLink } from '@/util/api';
+import { searchDevLinks, removeDevLink, getAllDevLinkTags, getDevLink } from '@/util/api';
 
 export default {
 	name: 'DevLink',
@@ -66,7 +99,15 @@ export default {
 	},
 	data() {
 		return {
-			searchWord: '',
+			searchType: 1,
+			searchTypes: [
+				{ name: '태그', value: 1 },
+				{ name: '제목', value: 2 }
+			],
+			autoCompleteInput: '',
+			allTags: [],
+			title: '',
+			tagNames: [],
 			isSearching: false,
 
 			message: {
@@ -133,57 +174,12 @@ export default {
 		}
 	},
 	async mounted() {
-		// try {
-		// 	const { code, tagList } = await getTagList(TAG_TY.DEV_LINK);
-		// 	if (code === RSPNS.SUCCES) {
-		// 		this.tagList = tagList.map(({ tag }) => tag);
-		// 	} else {
-		// 		throw new Error(code);
-		// 	}
-		// } catch (err) {
-		// 	console.error(err);
-		// }
+		const { data } = await getAllDevLinkTags();
+		this.allTags = data.map(({ name }) => name);
 	},
 	methods: {
-		/**
-		 * @description 개발 문서 검색
-		 */
-		// async srchDevLink(isSrch) {
-		// 	try {
-		// 		const isValidParam = this.chckParam();
-
-		// 		if (isValidParam) {
-		// 			this.isSrching = true;
-
-		// 			if (isSrch) {
-		// 				this.page = 1;
-		// 			}
-
-		// 			const { code, totCnt, devLinkList } = await getDevLinkList({
-		// 				ty: this.srchTy,
-		// 				page: this.page,
-		// 				srchTitle: this.srchTitle,
-		// 				srchTagAry: JSON.stringify(this.srchTagAry)
-		// 			});
-
-		// 			if (code === RSPNS.SUCCES) {
-		// 				this.totalCount = totCnt;
-		// 				this.devLinkList = devLinkList;
-		// 			} else {
-		// 				throw new Error(code);
-		// 			}
-		// 		} else {
-		// 			this.$message({ type: 'warning', message: '입력 값을 확인해주세요.' });
-		// 		}
-		// 	} catch (err) {
-		// 		console.error(err);
-		// 		this.$message({ type: 'error', message: '에러가 발생했습니다.' });
-		// 	} finally {
-		// 		this.isSrching = false;
-		// 	}
-		// },
 		async search() {
-			if (!this.searchWord) {
+			if (!this.title && !this.tagNames.length) {
 				return;
 			}
 
@@ -191,13 +187,19 @@ export default {
 			this.confirm.isOpen = false;
 
 			const { data } = await searchDevLinks({
+				searchType: this.searchType,
 				page: this.page,
-				tagName: this.searchWord
+				title: this.title || undefined,
+				tagNames: this.tagNames.length ? this.tagNames : undefined
 			});
 
 			const { totalCount, devLinks } = data;
 			this.totalCount = totalCount;
 			this.devLinks = devLinks;
+
+			if (!totalCount) {
+				this.openMessage('검색 결과가 없습니다.', 'warning');
+			}
 
 			this.isSearching = false;
 		},
@@ -227,13 +229,15 @@ export default {
 			this.devLink = null;
 			this.isModalOpen = true;
 		},
-		openModifyModal(devLink) {
+		async openModifyModal(devLinkId) {
 			if(!this.isSignIn) {
 				this.openMessage('로그인이 필요합니다.', 'warning');
 				return;
 			}
 
-			this.devLink = devLink;
+			const { data } = await getDevLink(devLinkId);
+
+			this.devLink = data;
 			this.isModalOpen = true;
 		},
 		completeSave() {
@@ -253,6 +257,17 @@ export default {
 			this.confirm.text = text;
 			this.confirm.color = color || undefined;
 			this.confirm.isOpen = true;
+		},
+		clearAutoComplete() {
+			this.autoCompleteInput = '';
+			this.$refs.autocomplete.focus();
+		},
+		clearSearchInput() {
+			if (this.searchType === 1) { // tag
+				this.title = '';
+			} else { // title
+				this.tagNames = [];
+			}
 		}
 	}
 };

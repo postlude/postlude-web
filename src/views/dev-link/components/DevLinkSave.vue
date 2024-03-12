@@ -6,8 +6,8 @@
 			<v-text-field v-model="newDevLink.title" :counter="100" :clearable="true" label="제목" />
 			<v-textarea v-model="newDevLink.url" :counter="500" :rows="3" :clearable="true" label="링크" />
 			<v-text-field v-model="newTag" label="태그" @keypress.enter="addTag" />
-			<v-chip v-for="(t, i) in newDevLink.tags" :key="t" closable class="ma-1" @click:close="removeTag(i)">
-				{{ t }}
+			<v-chip v-for="({ name }, i) in newDevLink.tags" :key="name" closable class="ma-1" @click:close="removeTag(i)">
+				{{ name }}
 			</v-chip>
 		</v-form>
 
@@ -73,12 +73,12 @@ export default {
 				return;
 			}
 
-			if (this.newDevLink.tags.includes(this.newTag)) {
+			if (this.newDevLink.tags.map(({ name }) => name).includes(this.newTag)) {
 				this.newTag = null;
 				return;
 			}
 
-			this.newDevLink.tags.push(this.newTag);
+			this.newDevLink.tags.push({ name: this.newTag });
 			this.newTag = null;
 		},
 		removeTag(tagIndex) {
