@@ -60,7 +60,7 @@
 				</v-btn>
 			</template>
 			<template v-slot:[`item.modify`]="{ item }">
-				<v-btn color="green-lighten-1" :size="buttonSize" @click="openModifyModal(item.raw)">
+				<v-btn color="green-lighten-1" :size="buttonSize" @click="openModifyModal(item.raw.id)">
 					<v-icon>mdi-pencil</v-icon>
 				</v-btn>
 			</template>
@@ -88,7 +88,7 @@
 import DevLinkSave from './components/DevLinkSave.vue';
 import Message from '@/components/Message.vue';
 import Confirm from '@/components/Confirm.vue';
-import { searchDevLinks, removeDevLink, getAllDevLinkTags } from '@/util/api';
+import { searchDevLinks, removeDevLink, getAllDevLinkTags, getDevLink } from '@/util/api';
 
 export default {
 	name: 'DevLink',
@@ -229,13 +229,15 @@ export default {
 			this.devLink = null;
 			this.isModalOpen = true;
 		},
-		openModifyModal(devLink) {
+		async openModifyModal(devLinkId) {
 			if(!this.isSignIn) {
 				this.openMessage('로그인이 필요합니다.', 'warning');
 				return;
 			}
 
-			this.devLink = devLink;
+			const { data } = await getDevLink(devLinkId);
+
+			this.devLink = data;
 			this.isModalOpen = true;
 		},
 		completeSave() {
