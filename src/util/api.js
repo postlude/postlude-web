@@ -15,7 +15,15 @@ class Api {
 
 	async get(url, params) {
 		const headers = this._getHeaders();
-		return axios.get(`${this.baseUrl}${url}`, { params, headers });
+		return axios.get(`${this.baseUrl}${url}`, {
+			params,
+			headers,
+			paramsSerializer: {
+				// 파라미터에 배열 포함시 대괄호 포함되지 않음
+				// https://stackoverflow.com/questions/49944387/how-to-correctly-use-axios-params-with-arrays
+				indexes: null
+			}
+		});
 	}
 
 	async post(url, data) {
@@ -36,27 +44,11 @@ class Api {
 
 const api = new Api();
 
-/**
- * @description 개발 링크 검색
- */
+export const getAllDevLinkTags = () => api.get('/dev-links/tags');
 export const searchDevLinks = params => api.get('/dev-links', params);
-
-/**
- * @description 개발 링크 추가
- */
+export const getDevLink = id => api.get(`/dev-links/${id}`);
 export const addDevLink = devLink => api.post('/dev-links', devLink);
-
-/**
- * @description 개발 링크 삭제
- */
 export const removeDevLink = id => api.delete(`/dev-links/${id}`);
-
-/**
- * @description 개발 링크 수정
- */
 export const setDevLink = (id, devLink) => api.put(`/dev-links/${id}`, devLink);
 
-/**
- * @description 로그인
- */
 export const signIn = user => api.post('/auth/sign-in', user);
