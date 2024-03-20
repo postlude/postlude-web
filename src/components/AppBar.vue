@@ -2,12 +2,8 @@
 	<v-app-bar flat>
 		<v-app-bar-nav-icon variant="text" @click.stop="isOpenSideBar = !isOpenSideBar" />
 		<v-toolbar-title style="cursor: pointer" @click="moveProfile">POSTLUDE</v-toolbar-title>
-		<template v-if="isSignIn" v-slot:append>
-			<v-btn icon="mdi-account-circle" @click="signOut" />
-		</template>
-		<template v-else v-slot:append>
-			<v-btn icon="mdi-account-circle-outline" @click="openSignIn" />
-		</template>
+		<v-btn v-show="isSignIn" icon="mdi-account-circle" @click="signOut" />
+		<v-btn v-show="!isSignIn" icon="mdi-account-circle-outline" @click="openSignIn" />
 	</v-app-bar>
 
 	<v-navigation-drawer v-model="isOpenSideBar">

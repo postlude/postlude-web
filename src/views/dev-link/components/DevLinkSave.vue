@@ -39,6 +39,10 @@ export default {
 		devLink: {
 			type: Object,
 			default: () => {}
+		},
+		allTags: {
+			type: Array,
+			default: () => []
 		}
 	},
 	data() {
@@ -66,7 +70,11 @@ export default {
 				await addDevLink(this.newDevLink);
 			}
 
-			this.$emit('save');
+			/** 처음 등록되는 태그 */
+			const newTagNames = this.newDevLink.tags.map(({ name }) => name)
+				.filter((tagName) => !this.allTags.includes(tagName));
+
+			this.$emit('save', newTagNames);
 		},
 		addTag() {
 			if (!this.newTag) {
