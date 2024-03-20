@@ -76,7 +76,7 @@
 		</v-data-table>
 
 		<v-dialog v-model="isModalOpen" :width="modalSize" :close-delay="0" :open-delay="0">
-			<dev-link-save :dev-link="devLink" @close="isModalOpen = false" @save="completeSave"/>
+			<dev-link-save :dev-link="devLink" :all-tags="allTags" @close="isModalOpen = false" @save="completeSave"/>
 		</v-dialog>
 
 		<message :is-open="message.isOpen" :text="message.text" :color="message.color" @close="message.isOpen = false" />
@@ -240,7 +240,11 @@ export default {
 			this.devLink = data;
 			this.isModalOpen = true;
 		},
-		completeSave() {
+		completeSave(newTagNames) {
+			// 새롭게 등록된 태그가 있으면 추가
+			if (newTagNames.length) {
+				this.allTags = this.allTags.concat(newTagNames);
+			}
 			this.isModalOpen = false;
 			this.openMessage('저장됐습니다.');
 		},
